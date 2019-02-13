@@ -5,14 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 @Entity
 @Data
@@ -20,7 +22,10 @@ public class City {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Setter(AccessLevel.NONE)
+	@Column(name = "city_id")
 	private Long id;
+	
 	private String name;
 	
 	@OneToMany(mappedBy="city")
