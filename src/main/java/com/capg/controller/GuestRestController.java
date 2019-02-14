@@ -1,8 +1,10 @@
 package com.capg.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,20 @@ public class GuestRestController {
 	@Autowired
 	CityRepository cityRepository;
 	@Autowired
-	DivisionsRepository divisionsRepository ;
+	DivisionsRepository divisionsRepository;
+	
+	
+	/*Récupére la liste des divisions*/
+	@GetMapping(value = "/divisions")
+	public List<Divisions> getAllDivisions(){
+		return divisionsRepository.findAll ();
+	}
+	
+	@GetMapping(value = "/city")
+	public List<City> getAllCity(){
+		return cityRepository.findAll ();
+	}
+	
 	
 	/*Inscription des users*/
 	@PostMapping(value = "/user")
@@ -56,4 +71,6 @@ public class GuestRestController {
 		return userRepository.save(user);
 	}
 
+	
+	
 }
