@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,18 +39,23 @@ public class Users {
 	private String email;
 	
 	@JsonIgnore
+	@Size(min=8, max=30, message = "*Your password must have 8 characters")
 	private String password;
 	
-	@Pattern(regexp="(^$|[0-9]{10})")
+	@Pattern(regexp="(^$|[0-9]{10})", message = "*Your number is incorrect")
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
 	private boolean isActive = true;
 	
+	@Column(name="created_date")
 	private LocalDateTime createdDate = LocalDateTime.now();
 	
+	@Column(name="last_update")
+	private LocalDateTime lastUpdate;
+	
 	@ManyToOne
-	@JoinColumn(name = "city_id")
+	@JoinColumn(name = "city_id", nullable=false)
 	private City city;
 	
 	@ManyToOne
