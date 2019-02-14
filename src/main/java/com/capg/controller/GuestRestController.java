@@ -40,16 +40,19 @@ public class GuestRestController {
 		user.setRole(defaultRole);
 		user.setCity(yourCity);
 		user.setDivisions(yourDivision);
+		user.setCreatedDate(LocalDateTime.now());
 		return userRepository.save(user);
 	}
 	
-	@PutMapping(value = "/user/{id}")
+	@PutMapping(value = "/user")
 	public Users update(@RequestBody Users user) {
 		City yourCity = cityRepository.findByName(user.getCity().getName());
 		Divisions yourDivision = divisionsRepository.findByName(user.getDivisions().getName());
+		Roles defaultRole = rolesRepository.findByNameRole("Association");
 		user.setCity(yourCity);
 		user.setDivisions(yourDivision);
 		user.setLastUpdate(LocalDateTime.now());
+		user.setRole(defaultRole);
 		return userRepository.save(user);
 	}
 
