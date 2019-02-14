@@ -12,33 +12,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
 @Entity
 @Data
-public class Entites {
+public class Divisions {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Setter(AccessLevel.NONE)
-	@Column(name = "entites_id")
+	@Column(name = "divisions_id")
 	private Long id;
 	
 	private String name;
 	
-	@OneToMany(mappedBy="entites")
+	@OneToMany(mappedBy="divisions")
+	@JsonIgnore
 	private Set<Users> listusers = new HashSet<>();
 	
-	@OneToMany(mappedBy = "entites")
+	@OneToMany(mappedBy = "divisions")
+	@JsonIgnore
 	private List<Projects> listProjects = new ArrayList<>();
 			
 	
-	protected Entites () {}
+	protected Divisions () {}
 
 
-	public Entites(Long id, String name) {
+	public Divisions(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
