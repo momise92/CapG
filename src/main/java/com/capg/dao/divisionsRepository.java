@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.capg.entities.Divisions;
 
-public interface divisionsRepository extends JpaRepository<Divisions, Long>{
+public interface DivisionsRepository extends JpaRepository<Divisions, Long>{
+
+	Divisions findByName(String name);
 
 }
