@@ -64,11 +64,11 @@ public class GuestRestController {
 	public Users update(@RequestBody Users user) {
 		City yourCity = cityRepository.findByName(user.getCity().getName());
 		Divisions yourDivision = divisionsRepository.findByName(user.getDivisions().getName());
-		Roles defaultRole = rolesRepository.findByNameRole("Association");
+		Roles yourRole = rolesRepository.findByNameRole(user.getRole().getNameRole());
 		user.setCity(yourCity);
 		user.setDivisions(yourDivision);
 		user.setLastUpdate(LocalDateTime.now());
-		user.setRole(defaultRole);
+		user.setRole(yourRole);
 		return userRepository.save(user);
 	}
 
