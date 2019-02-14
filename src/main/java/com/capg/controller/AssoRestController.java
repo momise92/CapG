@@ -45,16 +45,7 @@ public class AssoRestController {
 		return projectsRepository.findAll();
 	}
 
-	/*
-	 * @PostMapping public ResponseEntity<?> addProject(@RequestBody Projects
-	 * projects) {
-	 * 
-	 * if (projects.findByName(projects.getName()) != null) { return new
-	 * ResponseEntity<String>("Il existe déja un projet de ce nom",
-	 * HttpStatus.CONFLICT); } return new
-	 * ResponseEntity<Projects>(projects.save(projects), HttpStatus.CREATED); }
-	 */
-
+	
 	@PostMapping(value = "/projects")
 	public ResponseEntity<?> save(@RequestBody Projects projects) {
 		if (projectsRepository.findByName(projects.getName()) != null) {
