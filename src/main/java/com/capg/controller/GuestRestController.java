@@ -59,6 +59,7 @@ public class GuestRestController {
 		return userRepository.save(user);
 	}
 	
+	/*Mise a jour users*/
 	@PutMapping(value = "/user")
 	public Users update(@RequestBody Users user) {
 		City yourCity = cityRepository.findByName(user.getCity().getName());
