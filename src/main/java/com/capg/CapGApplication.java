@@ -8,12 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.capg.dao.CityRepository;
-import com.capg.dao.EntitesRepository;
+import com.capg.dao.divisionsRepository;
 import com.capg.dao.ProjectsRepository;
 import com.capg.dao.RolesRepository;
 import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
-import com.capg.entities.Entites;
+import com.capg.entities.Divisions;
 import com.capg.entities.Projects;
 import com.capg.entities.Roles;
 import com.capg.entities.Users;
@@ -32,7 +32,7 @@ public class CapGApplication implements CommandLineRunner {
 	CityRepository cityRepository;
 	
 	@Autowired
-	EntitesRepository entitesRepository;
+	divisionsRepository divisionsRepository;
 	
 	@Autowired
 	UsersRepository usersRepository;
@@ -49,8 +49,8 @@ public class CapGApplication implements CommandLineRunner {
 		City sarcelles = new City(null, "Sarcelles");
 		cityRepository.save(sarcelles);
 		
-		Entites apps = new Entites(null, "Apps");
-		entitesRepository.save(apps);
+		Divisions apps = new Divisions(null, "Apps");
+		divisionsRepository.save(apps);
 		
 		
 		Users user1 = new Users(null, "Hawa", "Gaye", "Gaye@gmail.com", "password",sarcelles, 
@@ -61,6 +61,24 @@ public class CapGApplication implements CommandLineRunner {
 				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15), 3, sarcelles, apps);
 		
 		projectsRepository.save(apiterra);
+		
+		
+		Roles personnelManager = new Roles(null, "espero");
+		rolesRepository.save(personnelManager);
+		
+		City dakar = new City(null, "Dakar");
+		cityRepository.save(dakar);
+		
+		Divisions finance = new Divisions(null, "finance");
+		divisionsRepository.save(finance);
+		
+		
+		Users user2 = new Users(null, "Moise", "Coulanges", "Moise@gmail.com", "password",dakar, 
+				finance, personnelManager);
+		usersRepository.save(user2);
+		
+	
+
 		
 
 	}
