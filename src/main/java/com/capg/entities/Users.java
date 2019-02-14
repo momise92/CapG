@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -24,13 +28,21 @@ public class Users {
 	@Column(name = "users_id")
 	private Long id;
 	
+	@Column(nullable = false, length = 50)
 	private String name;
 	
+	@Column(name = "last_name", length = 50)
 	private String lastName;
 	
+	@Email
 	private String email;
 	
+	@JsonIgnore
 	private String password;
+	
+	@Pattern(regexp="(^$|[0-9]{10})")
+	@Column(name = "phone_number")
+	private String phoneNumber;
 	
 	private boolean isActive = true;
 	
