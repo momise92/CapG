@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -26,12 +28,15 @@ public class City {
 	@Column(name = "city_id")
 	private Long id;
 	
+	@Column(name = "city_name", nullable = false, length = 50)
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="city")
 	private Set<Users> listUsers = new HashSet<>();
 	
 	@OneToMany(mappedBy = "city")
+	@JsonIgnore
 	private List<Projects> listProjects = new ArrayList<>();
 	
 	public City() {}
