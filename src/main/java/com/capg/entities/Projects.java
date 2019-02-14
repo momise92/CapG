@@ -37,8 +37,8 @@ public class Projects {
 	private City city;
 	
 	@ManyToOne
-	@JoinColumn(name = "entites_id", nullable = false)
-	private Entites entites;
+	@JoinColumn(name = "divisions_id", nullable = false)
+	private Divisions divisions;
 	
 	protected Projects () {}
 	

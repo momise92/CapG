@@ -26,7 +26,7 @@ public class Users {
 	
 	private String name;
 	
-	private String LastName;
+	private String lastName;
 	
 	private String email;
 	
@@ -37,12 +37,12 @@ public class Users {
 	private LocalDateTime createdDate = LocalDateTime.now();
 	
 	@ManyToOne
-	@JoinColumn(name = "city_id", nullable = false)
+	@JoinColumn(name = "city_id")
 	private City city;
 	
 	@ManyToOne
-	@JoinColumn(name = "entites_id", nullable = false)
-	private Entites entites;
+	@JoinColumn(name = "divisions_id")
+	private Divisions divisions;
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
@@ -50,15 +50,15 @@ public class Users {
 	
 	protected Users() {}
 
-	public Users(Long id, String name, String lastName, String email, String password, City city, Entites entites,
+	public Users(Long id, String name, String lastName, String email, String password, City city, Divisions divisions,
 			Roles role) {
 		this.id = id;
 		this.name = name;
-		LastName = lastName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.city = city;
-		this.entites = entites;
+		this.divisions = divisions;
 		this.role = role;
 	}
 	
