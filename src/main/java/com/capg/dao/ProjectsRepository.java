@@ -6,4 +6,6 @@ import com.capg.entities.Projects;
 
 public interface ProjectsRepository extends JpaRepository<Projects, Long>{
 
+	Projects findByName(String name);
+
 }
