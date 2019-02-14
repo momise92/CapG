@@ -49,7 +49,7 @@ public class Users {
 	private boolean isActive = true;
 	
 	@Column(name="created_date")
-	private LocalDateTime createdDate = LocalDateTime.now();
+	private LocalDateTime createdDate;
 	
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
