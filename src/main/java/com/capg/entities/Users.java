@@ -36,6 +36,7 @@ public class Users {
 	private String lastName;
 	
 	@Email
+	@Column(nullable=false, unique=true)
 	private String email;
 	
 	@JsonIgnore
