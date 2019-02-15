@@ -33,7 +33,7 @@ public class AssoRestController {
 	ProjectsRepository projectsRepository;
 
 	@Autowired
-	CityRepository cityRepository;
+	CityRepository citiesRepository;
 
 	@Autowired
 	DivisionsRepository divisionsRepository;
@@ -50,7 +50,19 @@ public class AssoRestController {
 	public List<Projects> getAllProjects() {
 		return projectsRepository.findAll();
 	}
+	
+	@GetMapping(value = "/cities")
+	public List<City> getAllCity(){
+		return citiesRepository.findAll ();
+	}
 
+	@GetMapping(value = "/divisions")
+	public List<Divisions> getAllDivisions(){
+		return divisionsRepository.findAll ();
+	}
+	
+	
+	
 	//Asso peut ajouter projet
 	@PostMapping(value = "/projects")
 	public ResponseEntity<?> save(@RequestBody Projects projects) {
@@ -58,7 +70,7 @@ public class AssoRestController {
 			return new ResponseEntity<String>("Ce nom de projet existe déja", HttpStatus.CONFLICT);
 		}
 
-		City yourCity = cityRepository.findByName(projects.getCity().getName());
+		City yourCity = citiesRepository.findByName(projects.getCity().getName());
 		Divisions yourDivision = divisionsRepository.findByName(projects.getDivisions().getName());
 		projects.setCity(yourCity);
 		projects.setDivisions(yourDivision);
@@ -85,6 +97,18 @@ public class AssoRestController {
 			return result;
 
 	}
+	
+	
+	//Association peut ajouter une ville
+			@PostMapping(value = "/city")
+			public ResponseEntity<?> save(@RequestBody City city) {
+				if (citiesRepository.findByName(city.getName()) != null) {
+					return new ResponseEntity<String>("Cette ville existe déja", HttpStatus.CONFLICT);
+				}
+				City newCity = citiesRepository.findByName(city.getName());
+				return new ResponseEntity<City>(citiesRepository.save(city), HttpStatus.CREATED);
+			}
+			
 	
 	
 
