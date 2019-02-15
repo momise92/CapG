@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,6 @@ import com.capg.dao.RolesRepository;
 import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
 import com.capg.entities.Divisions;
-import com.capg.entities.Roles;
 import com.capg.entities.Users;
 
 @RestController
@@ -57,17 +55,6 @@ public class GuestRestController {
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<Users>(userRepository.save(user), HttpStatus.CREATED);
 	}
-	
-	/*Mise a jour users*/
-	@PutMapping(value = "/user")
-	public Users update(@RequestBody Users user) {
-		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setDivisions(divisionsRepository.findByName(user.getDivisions().getName()));
-		user.setLastUpdate(LocalDateTime.now());
-		user.setRole(rolesRepository.findByNameRole(user.getRole().getNameRole()));
-		return userRepository.save(user);
-	}
-
 	
 	
 }
