@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CityRepository;
 import com.capg.dao.DivisionsRepository;
 import com.capg.dao.ProjectsRepository;
+import com.capg.dao.RolesRepository;
 import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
 import com.capg.entities.Divisions;
@@ -28,24 +29,37 @@ public class AssoRestController {
 
 	@Autowired
 	UsersRepository usersRepository;
-
 	@Autowired
 	ProjectsRepository projectsRepository;
-
 	@Autowired
+<<<<<<< HEAD
 	CityRepository citiesRepository;
 
+=======
+	CityRepository cityRepository;
+>>>>>>> 2ad680b97435e006c8e077960f5cf027172a2642
 	@Autowired
 	DivisionsRepository divisionsRepository;
-	
+	@Autowired
+	RolesRepository rolesRepository;
 	
 	//Asso peut lister tous les Users//
 	@GetMapping(value = "/users")
 	public List<Users> getAllUSers() {
 		return usersRepository.findAll();
 	}
+	
+/*	Mise a jour users
+	@PutMapping(value = "/user")
+	public Users update(@RequestBody Users user) {
+		user.setCity(cityRepository.findByName(user.getCity().getName()));
+		user.setDivisions(divisionsRepository.findByName(user.getDivisions().getName()));
+		user.setLastUpdate(LocalDateTime.now());
+		user.setRole(rolesRepository.findByNameRole(user.getRole().getNameRole()));
+		return usersRepository.save(user);
+	}*/
 
-	//Asso peut lister tous les projets//
+	//Asso peut lister tous les projets
 	@GetMapping(value = "/projects")
 	public List<Projects> getAllProjects() {
 		return projectsRepository.findAll();
