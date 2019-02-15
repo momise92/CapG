@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,27 +50,21 @@ public class GuestRestController {
 	
 	/*Inscription des users*/
 	@PostMapping(value = "/user")
-	public Users save(@RequestBody Users user) {
-		Roles defaultRole = rolesRepository.findByNameRole("Association");
-		City yourCity = cityRepository.findByName(user.getCity().getName());
-		Divisions yourDivision = divisionsRepository.findByName(user.getDivisions().getName());
-		user.setRole(defaultRole);
-		user.setCity(yourCity);
-		user.setDivisions(yourDivision);
+	public ResponseEntity<?> save(@RequestBody Users user) {
+		user.setRole(rolesRepository.findByNameRole("Association"));
+		user.setCity(cityRepository.findByName(user.getCity().getName()));
+		user.setDivisions(divisionsRepository.findByName(user.getDivisions().getName()));
 		user.setCreatedDate(LocalDateTime.now());
-		return userRepository.save(user);
+		return new ResponseEntity<Users>(userRepository.save(user), HttpStatus.CREATED);
 	}
 	
 	/*Mise a jour users*/
 	@PutMapping(value = "/user")
 	public Users update(@RequestBody Users user) {
-		City yourCity = cityRepository.findByName(user.getCity().getName());
-		Divisions yourDivision = divisionsRepository.findByName(user.getDivisions().getName());
-		Roles yourRole = rolesRepository.findByNameRole(user.getRole().getNameRole());
-		user.setCity(yourCity);
-		user.setDivisions(yourDivision);
+		user.setCity(cityRepository.findByName(user.getCity().getName()));
+		user.setDivisions(divisionsRepository.findByName(user.getDivisions().getName()));
 		user.setLastUpdate(LocalDateTime.now());
-		user.setRole(yourRole);
+		user.setRole(rolesRepository.findByNameRole(user.getRole().getNameRole()));
 		return userRepository.save(user);
 	}
 
