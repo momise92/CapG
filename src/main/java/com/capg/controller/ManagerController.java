@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RestController;
 
-import com.capg.dao.CityRepository;
+import com.capg.dao.CitiesRepository;
 import com.capg.dao.DivisionsRepository;
 import com.capg.dao.ProjectsRepository;
 	import com.capg.dao.UsersRepository;
@@ -35,7 +35,7 @@ import com.capg.entities.Projects;
 		ProjectsRepository projectsRepository;
 		
 		@Autowired
-		CityRepository citiesRepository;
+		CitiesRepository citiesRepository;
 		
 		@Autowired
 		DivisionsRepository divisionsRepository;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.capg.dao.CityRepository;
+import com.capg.dao.CitiesRepository;
 import com.capg.dao.DivisionsRepository;
 import com.capg.dao.ProjectsRepository;
 import com.capg.dao.RolesRepository;
@@ -32,12 +32,7 @@ public class AssoRestController {
 	@Autowired
 	ProjectsRepository projectsRepository;
 	@Autowired
-<<<<<<< HEAD
-	CityRepository citiesRepository;
-
-=======
-	CityRepository cityRepository;
->>>>>>> 2ad680b97435e006c8e077960f5cf027172a2642
+	CitiesRepository citiesRepository;
 	@Autowired
 	DivisionsRepository divisionsRepository;
 	@Autowired

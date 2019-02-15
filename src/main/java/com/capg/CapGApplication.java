@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.capg.dao.CityRepository;
+import com.capg.dao.CitiesRepository;
 import com.capg.dao.DivisionsRepository;
 import com.capg.dao.ProjectsRepository;
 import com.capg.dao.RolesRepository;
@@ -29,7 +29,7 @@ public class CapGApplication implements CommandLineRunner {
 	RolesRepository rolesRepository;
 	
 	@Autowired
-	CityRepository cityRepository;
+	CitiesRepository citiesRepository;
 	
 	@Autowired
 	DivisionsRepository DivisionsRepository;
@@ -52,10 +52,10 @@ public class CapGApplication implements CommandLineRunner {
 		
 		
 		City sarcelles = new City(null, "Sarcelles");
-		cityRepository.save(sarcelles);
+		citiesRepository.save(sarcelles);
 		
 		City dakar = new City(null, "Dakar");
-		cityRepository.save(dakar);
+		citiesRepository.save(dakar);
 		
 		
 		
