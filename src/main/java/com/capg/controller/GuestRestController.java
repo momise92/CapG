@@ -23,7 +23,7 @@ import com.capg.entities.Users;
 @RestController
 @RequestMapping("/guest")
 public class GuestRestController {
-	
+
 	@Autowired
 	UsersRepository userRepository;
 	@Autowired
@@ -32,21 +32,20 @@ public class GuestRestController {
 	CitiesRepository citiesRepository;
 	@Autowired
 	DivisionsRepository divisionsRepository;
-	
-	
-	/*Récupére la liste des divisions*/
+
+	/* Récupére la liste des divisions */
 	@GetMapping(value = "/divisions")
-	public List<Divisions> getAllDivisions(){
-		return divisionsRepository.findAll ();
+	public List<Divisions> getAllDivisions() {
+		return divisionsRepository.findAll();
 	}
-	
+
+	/* Récupère la liste des villes */
 	@GetMapping(value = "/city")
-	public List<City> getAllCity(){
-		return citiesRepository.findAll ();
+	public List<City> getAllCity() {
+		return citiesRepository.findAll();
 	}
-	
-	
-	/*Inscription des users*/
+
+	/* Inscription des users */
 	@PostMapping(value = "/user")
 	public ResponseEntity<?> save(@RequestBody Users user) {
 		user.setRole(rolesRepository.findByNameRole("Association"));
@@ -55,6 +54,5 @@ public class GuestRestController {
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<Users>(userRepository.save(user), HttpStatus.CREATED);
 	}
-	
-	
+
 }
