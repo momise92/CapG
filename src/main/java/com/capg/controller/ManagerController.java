@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CityRepository;
+import com.capg.dao.DivisionsRepository;
 import com.capg.dao.ProjectsRepository;
 	import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
@@ -36,6 +37,9 @@ import com.capg.entities.Projects;
 		@Autowired
 		CityRepository citiesRepository;
 		
+		@Autowired
+		DivisionsRepository divisionsRepository;
+		
 		
 		
 		@GetMapping(value = "/users")
@@ -53,8 +57,14 @@ import com.capg.entities.Projects;
 			return citiesRepository.findAll ();
 		}
 		
+		@GetMapping(value = "/divisions")
+		public List<Divisions> getAllDivisions(){
+			return divisionsRepository.findAll ();
+		}
 		
-		//Asso peut ajouter une ville
+		
+		
+		//Manager peut ajouter une ville
 		@PostMapping(value = "/city")
 		public ResponseEntity<?> save(@RequestBody City city) {
 			if (citiesRepository.findByName(city.getName()) != null) {
@@ -62,6 +72,18 @@ import com.capg.entities.Projects;
 			}
 			City newCity = citiesRepository.findByName(city.getName());
 			return new ResponseEntity<City>(citiesRepository.save(city), HttpStatus.CREATED);
+		}
+		
+		
+
+		//Manager peut ajouter une division
+		@PostMapping(value = "/division")
+		public ResponseEntity<?> save(@RequestBody Divisions division) {
+			if (divisionsRepository.findByName(division.getName()) != null) {
+				return new ResponseEntity<String>("Cette entité existe déja", HttpStatus.CONFLICT);
+			}
+			Divisions newDivision = divisionsRepository.findByName(division.getName());
+			return new ResponseEntity<Divisions>(divisionsRepository.save(division), HttpStatus.CREATED);
 		}
 		
 		
