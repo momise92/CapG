@@ -27,9 +27,17 @@ public class Projects {
 	private Long id;
 	
 	private String name;
+	
+	@Column(columnDefinition = "TEXT", length= 255)
 	private String description;
-	private LocalDateTime beginingDate;
+	
+	@Column(name="beginning_date")
+	private LocalDateTime beginningDate;
+	
+	@Column(name="end_date")
 	private LocalDateTime endDate;
+	
+	@Column(name="place_number")
 	private int placeNumber;
 	
 	@ManyToOne
