@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CitiesRepository;
 import com.capg.dao.DivisionsRepository;
+import com.capg.dao.EventsRepository;
 import com.capg.dao.ProjectsRepository;
 import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
 import com.capg.entities.Divisions;
+import com.capg.entities.Events;
 import com.capg.entities.Projects;
 import com.capg.entities.Users;
 
@@ -34,6 +36,9 @@ public class ManagerController {
 
 	@Autowired
 	DivisionsRepository divisionsRepository;
+	
+	@Autowired
+	EventsRepository eventsRepository;
 
 	@GetMapping(value = "/users")
 	public List<Users> getAllUSers() {
@@ -43,6 +48,11 @@ public class ManagerController {
 	@GetMapping(value = "/projects")
 	public List<Projects> getAllProjects() {
 		return projectsRepository.findAll();
+	}
+	
+	@GetMapping(value = "/events")
+	public List<Events> getAllEvents() {
+		return eventsRepository.findAll();
 	}
 
 	@GetMapping(value = "/cities")
