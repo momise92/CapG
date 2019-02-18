@@ -5,85 +5,77 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.capg.dao.CitiesRepository;
-import com.capg.dao.DivisionsRepository;
-import com.capg.dao.EventsRepository;
-import com.capg.dao.ProjectsRepository;
-import com.capg.dao.RolesRepository;
-import com.capg.dao.UsersRepository;
+import com.capg.dao.CityRepository;
+import com.capg.dao.DivisionRepository;
+import com.capg.dao.EventRepository;
+import com.capg.dao.ProjectRepository;
+import com.capg.dao.RoleAppRepository;
+import com.capg.dao.UserAppRepository;
 import com.capg.entities.City;
-import com.capg.entities.Divisions;
-import com.capg.entities.Events;
-import com.capg.entities.Projects;
-import com.capg.entities.Roles;
-import com.capg.entities.Users;
+import com.capg.entities.Division;
+import com.capg.entities.Event;
+import com.capg.entities.Project;
+import com.capg.entities.RoleApp;
+import com.capg.entities.UserApp;
 
 @Component
 public class DemoData {
-	
+
 	@Autowired
-	RolesRepository rolesRepository;
-	
+	RoleAppRepository roleAppRepository;
+
 	@Autowired
-	CitiesRepository citiesRepository;
-	
+	CityRepository cityRepository;
+
 	@Autowired
-	DivisionsRepository DivisionsRepository;
-	
+	DivisionRepository DivisionRepository;
+
 	@Autowired
-	UsersRepository usersRepository;
-	
+	UserAppRepository userAppRepository;
+
 	@Autowired
-	ProjectsRepository projectsRepository;
-	
+	ProjectRepository projectRepository;
+
 	@Autowired
-	EventsRepository eventsRepository;
-	
+	EventRepository eventRepository;
+
 	public void data() {
-	
-	Roles association = new Roles(null, "Moncul");
-	rolesRepository.save(association);
-	
-	Roles personnelManager = new Roles(null, "Association");
-	rolesRepository.save(personnelManager);
-	
-	
-	
-	City sarcelles = new City(null, "Sarcelles");
-	citiesRepository.save(sarcelles);
-	
-	City dakar = new City(null, "Dakar");
-	citiesRepository.save(dakar);
-	
-	
-	
-	Divisions apps = new Divisions(null, "Apps");
-	DivisionsRepository.save(apps);
 
-	Divisions finance = new Divisions(null, "finance");
-	DivisionsRepository.save(finance);
-	
+		RoleApp association = new RoleApp(null, "Moncul");
+		roleAppRepository.save(association);
 
-	
-	Users user1 = new Users(null, "Hawa", "Gaye", "Gaye@gmail.com", "password",sarcelles, 
-			apps, association);
-	usersRepository.save(user1);
-	
-	Users user2 = new Users(null, "Moise", "Coulanges", "Moise@gmail.com", "password",dakar, 
-			finance, personnelManager);
-	usersRepository.save(user2);
-	
-	
-	Projects apiterra = new Projects(null, "Apiterra", "Apiterra cherche des collaborateurs à Suresnes pour s’impliquer dans le club apicole, une fois par mois", 
-			LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15), 3, dakar, finance);
-	projectsRepository.save(apiterra);
-	
-	Events championsLeague = new Events(null, "Champions League", "Le match de l'année venez nombreux", LocalDateTime.now(), 
-			LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
-	championsLeague.setProject(apiterra);
-	eventsRepository.save(championsLeague);
-	
-	
+		RoleApp personnelManager = new RoleApp(null, "Association");
+		roleAppRepository.save(personnelManager);
+
+		City sarcelles = new City(null, "Sarcelles");
+		cityRepository.save(sarcelles);
+
+		City dakar = new City(null, "Dakar");
+		cityRepository.save(dakar);
+
+		Division apps = new Division(null, "Apps");
+		DivisionRepository.save(apps);
+
+		Division finance = new Division(null, "finance");
+		DivisionRepository.save(finance);
+
+		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps, association);
+		userAppRepository.save(user1);
+
+		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", dakar, finance,
+				personnelManager);
+		userAppRepository.save(user2);
+
+		Project apiterra = new Project(null, "Apiterra",
+				"Apiterra cherche des collaborateurs à Suresnes pour s’impliquer dans le club apicole, une fois par mois",
+				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
+		projectRepository.save(apiterra);
+		
+		Event championsLeague = new Event(null, "Champions League", "Le match de l'année venez nombreux",
+				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
+		championsLeague.setProject(apiterra);
+		eventRepository.save(championsLeague);
+
 	}
 
 }
