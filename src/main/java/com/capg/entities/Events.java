@@ -1,8 +1,6 @@
 package com.capg.entities;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,18 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Events {
 	@Id
@@ -44,14 +40,29 @@ public class Events {
 	@Column(name="place_number")
 	private int placeNumber;
 	
-	@ManyToMany(mappedBy="events")
-	private Set<Projects> projects = new HashSet<Projects>();
+	
+	private Projects project;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "city_id", nullable = false)
 	private City city;
 	
 	@ManyToOne
 	@JoinColumn(name = "divisions_id", nullable = false)
 	private Divisions divisions;
+
+	public Events(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate,
+			int placeNumber, City city, Divisions divisions) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.beginningDate = beginningDate;
+		this.endDate = endDate;
+		this.placeNumber = placeNumber;
+		this.city = city;
+		this.divisions = divisions;
+	}
+	
+	
 }
