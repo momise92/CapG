@@ -33,11 +33,12 @@ public class City {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="city")
-	private Set<Users> listUsers = new HashSet<>();
+	private Set<UserApp> listUsers = new HashSet<>();
 	
 	@OneToMany(mappedBy = "city")
 	@JsonIgnore
-	private List<Projects> listProjects = new ArrayList<>();
+	@Column(name = "list_events")
+	private List<Event> listEvents = new ArrayList<>();
 	
 	public City() {}
 
