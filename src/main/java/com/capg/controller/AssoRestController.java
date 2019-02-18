@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CitiesRepository;
 import com.capg.dao.DivisionsRepository;
+import com.capg.dao.EventsRepository;
 import com.capg.dao.ProjectsRepository;
 import com.capg.dao.RolesRepository;
 import com.capg.dao.UsersRepository;
 import com.capg.entities.City;
 import com.capg.entities.Divisions;
+import com.capg.entities.Events;
 import com.capg.entities.Projects;
 import com.capg.entities.Users;
 
@@ -35,6 +37,8 @@ public class AssoRestController {
 	DivisionsRepository divisionsRepository;
 	@Autowired
 	RolesRepository rolesRepository;
+	@Autowired
+	EventsRepository eventsRepository;
 
 	// Asso peut lister tous les Users
 	@GetMapping(value = "/users")
@@ -46,6 +50,11 @@ public class AssoRestController {
 	@GetMapping(value = "/projects")
 	public List<Projects> getAllProjects() {
 		return projectsRepository.findAll();
+	}
+	
+	@GetMapping(value = "/events")
+	public List<Events> getAllEvents() {
+		return eventsRepository.findAll();
 	}
 
 	@GetMapping(value = "/cities")
