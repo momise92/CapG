@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -25,30 +27,31 @@ public class Event {
 	@Setter(AccessLevel.NONE)
 	@Column(name = "event_id")
 	private Long id;
-	
+
 	private String name;
-	
-	@Column(columnDefinition = "TEXT", length= 255)
+
+	@Column(columnDefinition = "TEXT", length = 255)
 	private String description;
-	
-	@Column(name="beginning_date")
+
+	@Column(name = "beginning_date")
 	private LocalDateTime beginningDate;
-	
-	@Column(name="end_date")
+
+	@Column(name = "end_date")
 	private LocalDateTime endDate;
-	
-	@Column(name="place_number")
+
+	@Column(name = "place_number")
 	private int placeNumber;
-	
-	@ManyToOne
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","events"})
 	private Project project;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "city_id", nullable = false)
 	private City city;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "division_id", nullable = false)
@@ -65,6 +68,19 @@ public class Event {
 		this.city = city;
 		this.division = division;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Project))
+			return false;
+		return id != null && id.equals(((Project) o).getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
 }
