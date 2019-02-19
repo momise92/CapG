@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CityRepository;
-import com.capg.dao.DivisionRepository;
+import com.capg.dao.EntityCapRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
 import com.capg.entities.UserApp;
@@ -35,7 +35,7 @@ public class UserAppController {
 	@Autowired
 	CityRepository cityRepository;
 	@Autowired
-	DivisionRepository divisionRepository;
+	EntityCapRepository entityCapRepository;
 
 	/**
 	 * Get : get All Users
@@ -57,7 +57,7 @@ public class UserAppController {
 	public ResponseEntity<?> save(@RequestBody UserApp user) {
 		user.setRole(roleAppRepository.findByNameRole("Association"));
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setDivision(divisionRepository.findByName(user.getDivision().getName()));
+		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.CREATED);
 	}

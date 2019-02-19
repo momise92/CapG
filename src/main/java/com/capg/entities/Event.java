@@ -1,7 +1,6 @@
 package com.capg.entities;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,11 +53,11 @@ public class Event {
 
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name = "division_id", nullable = false)
-	private Division division;
+	@JoinColumn(name = "entity_id", nullable = false)
+	private EntityCap entityCap;
 
 	public Event(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate,
-			int placeNumber, City city, Division division) {
+			int placeNumber, City city, EntityCap entityCap) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -66,7 +65,7 @@ public class Event {
 		this.endDate = endDate;
 		this.placeNumber = placeNumber;
 		this.city = city;
-		this.division = division;
+		this.entityCap = entityCap;
 	}
 
 	@Override

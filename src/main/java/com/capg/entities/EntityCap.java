@@ -20,35 +20,33 @@ import lombok.Setter;
 
 @Entity
 @Data
-public class Division {
+public class EntityCap {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Setter(AccessLevel.NONE)
-	@Column(name = "division_id")
+	@Column(name = "entity_id")
 	private Long id;
 	
 	private String name;
 	
-	@OneToMany(mappedBy="division")
+	@OneToMany(mappedBy="entityCap")
 	@JsonIgnore
 	private Set<UserApp> listusers = new HashSet<>();
 	
-	@OneToMany(mappedBy = "division")
+	@OneToMany(mappedBy = "entityCap")
 	@JsonIgnore
 	@Column(name = "list_events")
 	private List<Event> listEvents = new ArrayList<>();
 			
 	
-	protected Division () {}
+	protected EntityCap () {}
 
 
-	public Division(Long id, String name) {
+	public EntityCap(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	
-	
 	
 
 }
