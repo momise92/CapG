@@ -67,7 +67,7 @@ public class UserAppController {
 	@PutMapping(value = "/user")
 	public UserApp update(@RequestBody UserApp user) {
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setDivision(divisionRepository.findByName(user.getDivision().getName()));
+		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
 		user.setLastUpdate(LocalDateTime.now());
 		user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
 		return userAppRepository.save(user);
