@@ -80,10 +80,9 @@ public class DemoData {
 				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
 		eventRepository.save(ffa);
 		
-		Project CapSurLeCode = new Project(null, "Cap sur le Code",
+	Project CapSurLeCode = new Project(null, "Cap sur le Code",
 				"l’association Innov’Avenir organise une matinée à Suresnes et à Lille pour initier des enfants de 8 à 14 ans",
 				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
-				CapSurLeCode.addEvent(ffa);;
 		projectRepository.save(CapSurLeCode);
 
 	}

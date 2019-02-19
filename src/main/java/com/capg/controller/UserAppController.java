@@ -2,6 +2,7 @@ package com.capg.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +43,31 @@ public class UserAppController {
 	EntityCapRepository entityCapRepository;
 
 	/**
-	 * GET /users get All Users
+	 * GET /users : All Users
 	 * 
-	 * @return All Users
+	 * @return the ResponseEntity with status 200 (OK) and the list of user in body
 	 */
 	@GetMapping(value = "/users")
 	public List<UserApp> getAllUSers() {
 		return userAppRepository.findAll();
+	}
+	
+	
+	/**
+	 * GET /users/:id : Show one user by his id
+	 * 
+	 * @param id the id of user to show
+	 * @return 
+	 * @return 
+	 */
+	@GetMapping(value="/users/{id}")
+	public ResponseEntity<?> getOneUser(@PathVariable Long id) {
+			UserApp user = userAppRepository.findById(id).get();
+			
+			if (user == null) {
+	            return new ResponseEntity<UserApp>(HttpStatus.NOT_FOUND);
+	        }
+	        return new ResponseEntity<UserApp>(user, HttpStatus.OK);
 	}
 
 	/**
@@ -73,36 +92,46 @@ public class UserAppController {
 	 * @return
 	 */
 	@PutMapping(value = "/users")
-	public ResponseEntity<?> update(@RequestBody UserApp user) {
-		if (user.getId() == null) throw new RuntimeException("Invalid id");
-		
-			user.setCity(cityRepository.findByName(user.getCity().getName()));
-			user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
-			user.setLastUpdate(LocalDateTime.now());
-			user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
-			return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.OK);
-		
+	public ResponseEntity<?> updateUserApp(@RequestBody UserApp user) {
+		if (user.getId() == null)
+			throw new RuntimeException("Invalid id");
+
+		user.setCity(cityRepository.findByName(user.getCity().getName()));
+		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
+		user.setLastUpdate(LocalDateTime.now());
+		Optional<UserApp> userCreateDate = userAppRepository.findById(user.getId());
+		user.setCreatedDate(userCreateDate.get().getCreatedDate());
+		user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
+		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.OK);
+
 	}
-	
-	//User peut supprimer un user
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUserApp(@PathVariable Long id) {
-        ResponseEntity<?> result = null;
 
-        if (userAppRepository.findById(id) == null) {
-            return new ResponseEntity<String>("Ce user n'existe pas", HttpStatus.NOT_FOUND);}
+	/**
+	 * DELETE /users/:id
+	 * 
+	 * @param id the id of user to delete
+	 * @return ResponseEntity with status 200(OK)
+	 */
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<?> deleteUserApp(@PathVariable Long id) {
+		ResponseEntity<?> result = null;
 
-        try {
-            userAppRepository.deleteById(id);
-            result = new ResponseEntity<>(true,HttpStatus.OK);
-            }
+		if (userAppRepository.findById(id) == null) {
+			return new ResponseEntity<String>("Ce user n'existe pas", HttpStatus.NOT_FOUND);
+		}
 
-        catch (Exception ex) {
+		try {
+			userAppRepository.deleteById(id);
+			result = new ResponseEntity<>(HttpStatus.OK);
+		}
 
-            result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);}
+		catch (Exception ex) {
 
-            return result;
+			result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-    }
+		return result;
+
+	}
 
 }
