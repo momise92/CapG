@@ -61,8 +61,8 @@ public class UserApp {
 	private City city;
 	
 	@ManyToOne
-	@JoinColumn(name = "division_id")
-	private Division division;
+	@JoinColumn(name = "entity_id")
+	private EntityCap entityCap;
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
@@ -70,7 +70,7 @@ public class UserApp {
 	
 	protected UserApp() {}
 
-	public UserApp(Long id, String name, String lastName, String email, String password, City city, Division division,
+	public UserApp(Long id, String name, String lastName, String email, String password, City city, EntityCap entityCap,
 			RoleApp role) {
 		this.id = id;
 		this.name = name;
@@ -78,7 +78,7 @@ public class UserApp {
 		this.email = email;
 		this.password = password;
 		this.city = city;
-		this.division = division;
+		this.entityCap = entityCap;
 		this.role = role;
 	}
 	
