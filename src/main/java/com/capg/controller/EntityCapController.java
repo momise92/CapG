@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.EntityCapRepository;
 import com.capg.entities.EntityCap;
+import com.capg.entities.Project;
 
 /**
  * @author Moïse Coulanges
@@ -53,7 +55,7 @@ public class EntityCapController {
 	}
 	
 	//Delete one entityCap
-		@DeleteMapping("/entityCap/{id}")
+		@DeleteMapping("/entities/{id}")
 		public ResponseEntity<?> deleteProject(@PathVariable Long id) {
 			ResponseEntity<?> result = null;
 
@@ -71,6 +73,15 @@ public class EntityCapController {
 
 				return result;
 
+		}
+		
+
+		@PutMapping(value = "/entities")
+		public ResponseEntity<?> update(@RequestBody EntityCap entity) {
+			if (entity.getId() == null) return new ResponseEntity<String>("Entité inexistante", HttpStatus.NOT_FOUND);
+			
+				return new ResponseEntity<>(entityCapRepository.save(entity), HttpStatus.OK);
+			
 		}
 
 }
