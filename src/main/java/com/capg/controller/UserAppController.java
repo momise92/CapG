@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +60,17 @@ public class UserAppController {
 		user.setDivision(divisionRepository.findByName(user.getDivision().getName()));
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.CREATED);
+	}
+	
+	
+	/*Mise a jour users*/
+	@PutMapping(value = "/user")
+	public UserApp update(@RequestBody UserApp user) {
+		user.setCity(cityRepository.findByName(user.getCity().getName()));
+		user.setDivision(divisionRepository.findByName(user.getDivision().getName()));
+		user.setLastUpdate(LocalDateTime.now());
+		user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
+		return userAppRepository.save(user);
 	}
 
 }
