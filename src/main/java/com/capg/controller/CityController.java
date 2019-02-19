@@ -5,14 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
+import com.capg.entities.Project;
 
 
 /**
@@ -50,4 +54,35 @@ public class CityController {
 		return new ResponseEntity<City>(cityRepository.save(city), HttpStatus.CREATED);
 	}
 
+	
+	@PutMapping(value = "/city")
+	public ResponseEntity<?> update(@RequestBody City city) {
+		if (city.getId() == null) return new ResponseEntity<String>("Ville inexistante", HttpStatus.NOT_FOUND);
+		
+			return new ResponseEntity<>(cityRepository.save(city), HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping("/city/{id}")
+	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
+		ResponseEntity<?> result = null;
+
+		if (cityRepository.findById(id) == null) {
+			return new ResponseEntity<String>("Cette ville n'existe pas", HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			cityRepository.deleteById(id);
+			result = new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		catch (Exception ex) {
+
+			result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return result;
+
+	}
+	
 }
