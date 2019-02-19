@@ -8,6 +8,6 @@ public interface UserAppRepository extends JpaRepository<UserApp, Long>{
 	UserApp findByName(String name);
 	UserApp findByEmail(String email);
 	UserApp findByCity(String city);
-	UserApp findByDivision(String division);
+	UserApp findByEntityCap(String entity);
 
 }
