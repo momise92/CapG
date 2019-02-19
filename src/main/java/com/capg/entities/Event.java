@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AccessLevel;
@@ -47,12 +46,10 @@ public class Event {
 	private Project project;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "city_id", nullable = false)
 	private City city;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "entity_id", nullable = false)
 	private EntityCap entityCap;
 
@@ -79,7 +76,7 @@ public class Event {
 
 	@Override
 	public int hashCode() {
-		return 31;
+		return (int) (31+this.id);
 	}
 
 }
