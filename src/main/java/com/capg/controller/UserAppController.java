@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,10 +23,11 @@ import com.capg.entities.UserApp;
  * @author Moïse Coulanges
  * @author Hawa Gaye
  * 
- * Rest Controller for managing User
+ *         Rest Controller for managing User
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class UserAppController {
 
 	@Autowired
@@ -38,7 +40,7 @@ public class UserAppController {
 	EntityCapRepository entityCapRepository;
 
 	/**
-	 * Get : get All Users
+	 * GET /users get All Users
 	 * 
 	 * @return All Users
 	 */
@@ -48,7 +50,7 @@ public class UserAppController {
 	}
 
 	/**
-	 * Post : Create user
+	 * Post /users : Create user
 	 * 
 	 * @param user the user to create
 	 * @return The responseEntity with status 201 with body the new user
@@ -61,16 +63,23 @@ public class UserAppController {
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.CREATED);
 	}
-	
-	
-	/*Mise a jour users*/
-	@PutMapping(value = "/user")
-	public UserApp update(@RequestBody UserApp user) {
-		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
-		user.setLastUpdate(LocalDateTime.now());
-		user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
-		return userAppRepository.save(user);
+
+	/**
+	 * PUT /users : Update an existing user
+	 * 
+	 * @param user to user to update
+	 * @return
+	 */
+	@PutMapping(value = "/users")
+	public ResponseEntity<?> update(@RequestBody UserApp user) {
+		if (user.getId() == null) throw new RuntimeException("Invalid id");
+		
+			user.setCity(cityRepository.findByName(user.getCity().getName()));
+			user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
+			user.setLastUpdate(LocalDateTime.now());
+			user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
+			return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.OK);
+		
 	}
 
 }
