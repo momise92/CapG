@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.capg.dao.CityRepository;
-import com.capg.dao.DivisionRepository;
+import com.capg.dao.EntityCapRepository;
 import com.capg.dao.EventRepository;
 import com.capg.dao.ProjectRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
 import com.capg.entities.City;
-import com.capg.entities.Division;
+import com.capg.entities.EntityCap;
 import com.capg.entities.Event;
 import com.capg.entities.Project;
 import com.capg.entities.RoleApp;
@@ -28,7 +28,7 @@ public class DemoData {
 	CityRepository cityRepository;
 
 	@Autowired
-	DivisionRepository DivisionRepository;
+	EntityCapRepository EntityCapRepository;
 
 	@Autowired
 	UserAppRepository userAppRepository;
@@ -53,11 +53,11 @@ public class DemoData {
 		City dakar = new City(null, "Dakar");
 		cityRepository.save(dakar);
 
-		Division apps = new Division(null, "Apps");
-		DivisionRepository.save(apps);
+		EntityCap apps = new EntityCap(null, "Apps");
+		EntityCapRepository.save(apps);
 
-		Division finance = new Division(null, "finance");
-		DivisionRepository.save(finance);
+		EntityCap finance = new EntityCap(null, "finance");
+		EntityCapRepository.save(finance);
 
 		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps, association);
 		userAppRepository.save(user1);
@@ -75,6 +75,16 @@ public class DemoData {
 				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
 		championsLeague.setProject(apiterra);
 		eventRepository.save(championsLeague);
+		
+		Event ffa = new Event(null, "Championnat de France", "Le championnat de l'année venez nombreux",
+				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
+		eventRepository.save(ffa);
+		
+		Project CapSurLeCode = new Project(null, "Cap sur le Code",
+				"l’association Innov’Avenir organise une matinée à Suresnes et à Lille pour initier des enfants de 8 à 14 ans",
+				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
+				CapSurLeCode.addEvent(ffa);;
+		projectRepository.save(CapSurLeCode);
 
 	}
 
