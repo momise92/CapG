@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CityRepository;
-import com.capg.dao.DivisionRepository;
+import com.capg.dao.EntityCapRepository;
 import com.capg.dao.ProjectRepository;
 import com.capg.entities.Project;
 
@@ -33,7 +33,7 @@ public class ProjectController {
 	@Autowired
 	CityRepository cityRepository;
 	@Autowired
-	DivisionRepository divisionRepository;
+	EntityCapRepository entityCapRepository;
 
 	/**
 	 * GET : List of all projects
@@ -58,7 +58,7 @@ public class ProjectController {
 		}
 
 		/*City yourCity = cityRepository.findByName(project.getCity().getName());
-		Division yourDivision = divisionRepository.findByName(project.getDivision().getName());
+		EntityCap yourDivision = entityCapRepository.findByName(project.getDivision().getName());
 		project.setCity(yourCity);
 		project.setDivision(yourDivision);*/
 		return new ResponseEntity<Project>(projectRepository.save(project), HttpStatus.CREATED);
