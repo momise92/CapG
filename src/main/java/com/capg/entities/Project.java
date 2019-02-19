@@ -3,13 +3,16 @@ package com.capg.entities;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -35,8 +38,8 @@ public class Project {
 	@Column(name="end_date")
 	private LocalDateTime endDate;
 	
-	@OneToMany(mappedBy="project")
-	@JsonIgnore
+	@OneToMany( mappedBy = "project",cascade = CascadeType.ALL,orphanRemoval = true)
+	@JsonIgnoreProperties("project")
 	private Set<Event> events = new HashSet<Event>();
 
 	
@@ -52,17 +55,14 @@ public class Project {
 	
 	public void addEvent(Event event)
 	{
-		this.events.add(event);
+		events.add(event);
+		event.setProject(this);
 	}
 	
 	public void removeEvent(Event event)
 	{
-		this.events.remove(event);
+		events.remove(event);
+		event.setProject(null);
 	}
-	
-	/*public List<Event> getEvent()
-	{
-		return new ArrayList<Event>(events);
-	}*/
 
 }
