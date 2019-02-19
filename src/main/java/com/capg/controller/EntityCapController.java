@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capg.dao.DivisionRepository;
-import com.capg.entities.Division;
+import com.capg.dao.EntityCapRepository;
+import com.capg.entities.EntityCap;
 
 /**
  * @author Moïse Coulanges
@@ -22,32 +22,32 @@ import com.capg.entities.Division;
  */
 @RestController
 @RequestMapping("/api/")
-public class DivisionController {
+public class EntityCapController {
 	
 	@Autowired
-	DivisionRepository divisionRepository;
+	EntityCapRepository entityCapRepository;
 	
 	
 	/**
 	 * Get : 
-	 * @return List all divisions
+	 * @return List all Entity
 	 */
-	@GetMapping(value = "/divisions")
-	public List<Division> getAllDivisions() {
-		return divisionRepository.findAll();
+	@GetMapping(value = "/entities")
+	public List<EntityCap> getAllEntities() {
+		return entityCapRepository.findAll();
 	}
 	
 	/**
-	 * Post : Create new division
-	 * @param division to division to create
-	 * @return create division and responseEntiy with status 201
+	 * Post : Create new Entity
+	 * @param entityCap to entity to create
+	 * @return create entity and responseEntiy with status 201
 	 */
-	@PostMapping(value = "/divisions")
-	public ResponseEntity<?> save(@RequestBody Division division) {
-		if (divisionRepository.findByName(division.getName()) != null) {
+	@PostMapping(value = "/entities")
+	public ResponseEntity<?> save(@RequestBody EntityCap entityCap) {
+		if (entityCapRepository.findByName(entityCap.getName()) != null) {
 			return new ResponseEntity<String>("Cette entité existe déja", HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<Division>(divisionRepository.save(division), HttpStatus.CREATED);
+		return new ResponseEntity<EntityCap>(entityCapRepository.save(entityCap), HttpStatus.CREATED);
 	}
 
 }
