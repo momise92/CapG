@@ -6,4 +6,6 @@ import com.capg.entities.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long>{
 
+	Event findByName(String name);
+
 }
