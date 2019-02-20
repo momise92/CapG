@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,17 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
-import com.capg.entities.Project;
-
+import com.capg.entities.UserApp;
 
 /**
- * @author Moïse Coulanges 
+ * @author Moïse Coulanges
  * @author Hawa Gaye
  * 
- * Rest Controller for managing City
+ *         Rest Controller for managing City
  */
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/city")
 public class CityController {
 
 	@Autowired
@@ -37,11 +37,30 @@ public class CityController {
 	 * 
 	 * @return All cities
 	 */
-	@GetMapping(value = "/city")
+	@GetMapping
 	public List<City> getAllCity() {
 		return cityRepository.findAll();
 	}
-
+	
+	
+	/**
+	 * GET /city/:id : Show one city by his id
+	 * 
+	 * @param id the id of city to show
+	 * @return 
+	 * @return 
+	 */
+	@GetMapping(value="/{id}")
+	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+			
+			if (!cityRepository.findById(id).isPresent()) {
+	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
+	        } else {
+	        return new ResponseEntity<>(cityRepository.findById(id), HttpStatus.OK);
+	        }
+	}
+	
+	
 	/**
 	 * @param city to city to create
 	 * @return new city create and response entity with status 201
@@ -54,20 +73,21 @@ public class CityController {
 		return new ResponseEntity<City>(cityRepository.save(city), HttpStatus.CREATED);
 	}
 
-	
-	@PutMapping(value = "/city")
+	@PutMapping
 	public ResponseEntity<?> update(@RequestBody City city) {
-		if (city.getId() == null) return new ResponseEntity<String>("Ville inexistante", HttpStatus.NOT_FOUND);
-		
+		if (city.getId() == null) {
+			return new ResponseEntity<String>("Ville inexistante", HttpStatus.NOT_FOUND);
+		} else {
 			return new ResponseEntity<>(cityRepository.save(city), HttpStatus.OK);
-		
+		}
+
 	}
-	
-	@DeleteMapping("/city/{id}")
+
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
 
-		if (cityRepository.findById(id) == null) {
+		if (!cityRepository.findById(id).isPresent()) {
 			return new ResponseEntity<String>("Cette ville n'existe pas", HttpStatus.NOT_FOUND);
 		}
 
@@ -84,5 +104,5 @@ public class CityController {
 		return result;
 
 	}
-	
+
 }
