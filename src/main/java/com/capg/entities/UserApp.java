@@ -1,6 +1,10 @@
 package com.capg.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -56,6 +62,11 @@ public class UserApp {
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
 	
+	@ManyToMany
+	@JoinTable(name = "users_events", joinColumns = @JoinColumn(name = "user_id"),
+	inverseJoinColumns = @JoinColumn(name = "event_id"))
+	private Set<Event> events = new HashSet<>();
+	
 	@ManyToOne
 	@JoinColumn(name = "city_id", nullable=false)
 	private City city;
@@ -70,8 +81,7 @@ public class UserApp {
 	
 	protected UserApp() {}
 
-	public UserApp(Long id, String name, String lastName, String email, String password, City city, EntityCap entityCap,
-			RoleApp role) {
+	public UserApp(Long id, String name, String lastName, String email, String password, City city, EntityCap entityCap) {
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
@@ -79,9 +89,20 @@ public class UserApp {
 		this.password = password;
 		this.city = city;
 		this.entityCap = entityCap;
-		this.role = role;
+	}
+	public void addEvent(Event event)
+	{
+		events.add(event);
 	}
 	
+	public void removeEvent(Event event)
+	{
+		this.events.remove(event);
+	}
+	
+	public List<Event>getEvents(){
+	return new ArrayList<Event>(events);
+	}
 	
 	
 	
