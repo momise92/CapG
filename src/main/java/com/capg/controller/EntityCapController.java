@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.capg.dao.EntityCapRepository;
 import com.capg.entities.EntityCap;
-import com.capg.entities.Project;
 
 /**
  * @author Moïse Coulanges
@@ -34,7 +32,7 @@ public class EntityCapController {
 	
 	/**
 	 * Get : 
-	 * @return List all Entity
+	 * @return List all Entities
 	 */
 	@GetMapping(value = "/entities")
 	public List<EntityCap> getAllEntities() {
