@@ -28,7 +28,7 @@ public class DemoData {
 	CityRepository cityRepository;
 
 	@Autowired
-	EntityCapRepository EntityCapRepository;
+	EntityCapRepository entityCapRepository;
 
 	@Autowired
 	UserAppRepository userAppRepository;
@@ -41,7 +41,7 @@ public class DemoData {
 
 	public void data() {
 
-		RoleApp association = new RoleApp(null, "Moncul");
+		RoleApp association = new RoleApp(null, "Association");
 		roleAppRepository.save(association);
 
 		RoleApp personnelManager = new RoleApp(null, "Association");
@@ -54,16 +54,17 @@ public class DemoData {
 		cityRepository.save(dakar);
 
 		EntityCap apps = new EntityCap(null, "Apps");
-		EntityCapRepository.save(apps);
+		entityCapRepository.save(apps);
 
 		EntityCap finance = new EntityCap(null, "finance");
-		EntityCapRepository.save(finance);
+		entityCapRepository.save(finance);
 
-		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps, association);
+		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps);
+		user1.setRole(association);
 		userAppRepository.save(user1);
 
-		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", dakar, finance,
-				personnelManager);
+		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", dakar, finance);
+		user2.setRole(personnelManager);
 		userAppRepository.save(user2);
 
 		Project apiterra = new Project(null, "Apiterra",
@@ -80,10 +81,13 @@ public class DemoData {
 				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
 		eventRepository.save(ffa);
 		
-	Project CapSurLeCode = new Project(null, "Cap sur le Code",
+	Project capSurLeCode = new Project(null, "Cap sur le Code",
 				"l’association Innov’Avenir organise une matinée à Suresnes et à Lille pour initier des enfants de 8 à 14 ans",
 				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
-		projectRepository.save(CapSurLeCode);
+		projectRepository.save(capSurLeCode);
+		
+		user2.addEvent(ffa);
+		userAppRepository.save(user2);
 
 	}
 
