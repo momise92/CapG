@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.RoleAppRepository;
 import com.capg.entities.RoleApp;
+import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -25,7 +27,7 @@ import com.capg.entities.RoleApp;
  */
 
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/api/roles")
 public class RoleAppController {
 
 	@Autowired
@@ -50,7 +52,7 @@ public class RoleAppController {
 		if (roleAppRepository.findByNameRole(roleApp.getNameRole()) != null) {
 			return new ResponseEntity<String>("Ce nom de role existe déja", HttpStatus.CONFLICT);
 		}
-		return null;
+		return new ResponseEntity<RoleApp>(roleAppRepository.save(roleApp), HttpStatus.CREATED);
 
 	}
 
@@ -63,4 +65,18 @@ public class RoleAppController {
 
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteRoleApp(@PathVariable Long id) {
+		Optional<RoleApp> role = roleAppRepository.findById(id);
+		if (!role.isPresent())
+		{
+			return new ResponseEntity<String>("Ce role n'existe pas", HttpStatus.NOT_FOUND);
+		}else {
+			roleAppRepository.deleteById(id);
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
+			
+		
+		
+	}
 }
