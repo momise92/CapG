@@ -56,9 +56,8 @@ public class UserAppController {
 	 * GET /users/:id : Show one user by his id
 	 * 
 	 * @param id the id of user to show
-	 * @return
+	 * @return ResponseEntitu with status 200 (OK) and one user in body
 	 */
-
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
 		Optional<UserApp> user = userAppRepository.findById(id);
