@@ -29,7 +29,7 @@ import com.capg.entities.UserApp;
  *         Rest Controller for managing User
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @CrossOrigin("*")
 public class UserAppController {
 
@@ -47,7 +47,7 @@ public class UserAppController {
 	 * 
 	 * @return the ResponseEntity with status 200 (OK) and the list of user in body
 	 */
-	@GetMapping(value = "/users")
+	@GetMapping
 	public List<UserApp> getAllUSers() {
 		return userAppRepository.findAll();
 	}
@@ -60,16 +60,17 @@ public class UserAppController {
 	 * @return 
 	 * @return 
 	 */
-	@GetMapping(value="/users/{id}")
-	public ResponseEntity<?> getOneUser(@PathVariable Long id) {
-			UserApp user = userAppRepository.findById(id).get();
+	
+	
+	@GetMapping(value="/{id}")
+	public ResponseEntity<?> getOneUserApp(@PathVariable Long id) {
 			
-			if (user == null) {
-	            return new ResponseEntity<UserApp>(HttpStatus.NOT_FOUND);
+			if (!userAppRepository.findById(id).isPresent()) {
+	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
+	        } else {
+	        return new ResponseEntity<>(userAppRepository.findById(id), HttpStatus.OK);
 	        }
-	        return new ResponseEntity<UserApp>(user, HttpStatus.OK);
 	}
-
 	/**
 	 * Post /users : Create user
 	 * 
