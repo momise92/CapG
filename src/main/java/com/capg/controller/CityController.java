@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
+import com.capg.entities.UserApp;
 
 
 /**
@@ -48,14 +50,15 @@ public class CityController {
 	 * @return 
 	 * @return 
 	 */
-	@GetMapping(value="/{id}")
+
+	
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
-			
-			if (!cityRepository.findById(id).isPresent()) {
-	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
-	        } else {
-	        return new ResponseEntity<>(cityRepository.findById(id), HttpStatus.OK);
-	        }
+		Optional<City> city = cityRepository.findById(id);
+		if (!city.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(city);
+
 	}
 	
 	

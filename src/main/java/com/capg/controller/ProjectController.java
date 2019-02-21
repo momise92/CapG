@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,15 @@ public class ProjectController {
 		return projectRepository.findAll();
 	}
 
+	@GetMapping("/projects/{id}")
+	public ResponseEntity<?> getOneProject(@PathVariable Long id) {
+		Optional<Project> project = projectRepository.findById(id);
+		if (!project.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(project);
+
+	}
+	
 	/**
 	 * Post : Create new project
 	 *
