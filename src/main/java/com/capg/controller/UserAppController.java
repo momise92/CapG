@@ -57,20 +57,17 @@ public class UserAppController {
 	 * 
 	 * @param id the id of user to show
 	 * @return
-	 * @return
 	 */
-	
-	
-	@GetMapping(value="/{id}")
-	public ResponseEntity<?> getOneUserApp(@PathVariable Long id) {
-			
-			if (!userAppRepository.findById(id).isPresent()) {
-	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
-	        } else {
-	        return new ResponseEntity<>(userAppRepository.findById(id), HttpStatus.OK);
-	        }
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+		Optional<UserApp> user = userAppRepository.findById(id);
+		if (!user.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(user);
 
 	}
+
 	/**
 	 * Post /users : Create user
 	 * 
