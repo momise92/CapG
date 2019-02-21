@@ -29,7 +29,15 @@ public class EntityCapController {
 	@Autowired
 	EntityCapRepository entityCapRepository;
 	
-	
+	@GetMapping(value="/{id}")
+	public ResponseEntity<?> getOneEntityCap(@PathVariable Long id) {
+			
+			if (!entityCapRepository.findById(id).isPresent()) {
+	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
+	        } else {
+	        return new ResponseEntity<>(entityCapRepository.findById(id), HttpStatus.OK);
+	        }
+	}
 	/**
 	 * Get : 
 	 * @return List all Entities
