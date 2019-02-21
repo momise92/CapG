@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.EventRepository;
 import com.capg.entities.Event;
-import com.capg.entities.Project;
-import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
