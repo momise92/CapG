@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -47,10 +49,10 @@ public class UserApp {
 	private String email;
 	
 	@JsonIgnore
-	@Size(min=8, max=30, message = "*Your password must have 8 characters")
+	@Size(min=8, max=30)
 	private String password;
 	
-	@Pattern(regexp="(^$|[0-9]{10})", message = "*Your number is incorrect")
+	@Pattern(regexp="(^$|[0-9]{10})")
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
@@ -62,22 +64,25 @@ public class UserApp {
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
 	
-	@ManyToMany
-	@JoinTable(name = "users_events", joinColumns = @JoinColumn(name = "user_id"),
-	inverseJoinColumns = @JoinColumn(name = "event_id"))
-	private Set<Event> events = new HashSet<>();
-	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "city_id", nullable=false)
 	private City city;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "entity_id")
 	private EntityCap entityCap;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = false)
 	private RoleApp role;
+	
+	@ManyToMany
+	@JoinTable(name = "users_subscribe_events", joinColumns = @JoinColumn(name = "user_id"),
+	inverseJoinColumns = @JoinColumn(name = "event_id"))
+	private Set<Event> eventsSubscribe = new HashSet<>();
+	
+	@OneToMany
+	private Set<Event> createdEvents = new HashSet<>();
 	
 	protected UserApp() {}
 
@@ -92,16 +97,16 @@ public class UserApp {
 	}
 	public void addEvent(Event event)
 	{
-		events.add(event);
+		eventsSubscribe.add(event);
 	}
 	
 	public void removeEvent(Event event)
 	{
-		this.events.remove(event);
+		this.eventsSubscribe.remove(event);
 	}
 	
 	public List<Event>getEvents(){
-	return new ArrayList<Event>(events);
+	return new ArrayList<Event>(eventsSubscribe);
 	}
 	
 }
