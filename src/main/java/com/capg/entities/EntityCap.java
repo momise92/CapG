@@ -28,6 +28,7 @@ public class EntityCap {
 	@Column(name = "entity_id")
 	private Long id;
 	
+	@Column(name="entityCap_name", unique=true)
 	private String name;
 	
 	@OneToMany(mappedBy="entityCap")

@@ -28,7 +28,7 @@ public class City {
 	@Column(name = "city_id")
 	private Long id;
 	
-	@Column(name = "city_name", nullable = false, length = 50)
+	@Column(name = "city_name", nullable = false, length = 50, unique=true)
 	private String name;
 	
 	@JsonIgnore
