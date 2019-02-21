@@ -90,8 +90,9 @@ public class UserAppController {
 	 */
 	@PutMapping
 	public ResponseEntity<?> updateUserApp(@RequestBody UserApp user) {
-		if (user.getId() == null)
-			throw new RuntimeException("Invalid id");
+		Optional<UserApp> userToUpdate = userAppRepository.findById(user.getId());
+		if (user.getId() == null || !userToUpdate.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
 		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
