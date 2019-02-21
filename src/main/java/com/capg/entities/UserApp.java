@@ -104,9 +104,4 @@ public class UserApp {
 	return new ArrayList<Event>(events);
 	}
 	
-	
-	
-	
-	
-
 }
