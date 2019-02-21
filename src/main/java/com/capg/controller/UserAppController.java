@@ -29,7 +29,7 @@ import com.capg.entities.UserApp;
  *         Rest Controller for managing User
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @CrossOrigin("*")
 public class UserAppController {
 
@@ -47,27 +47,25 @@ public class UserAppController {
 	 * 
 	 * @return the ResponseEntity with status 200 (OK) and the list of user in body
 	 */
-	@GetMapping(value = "/users")
+	@GetMapping
 	public List<UserApp> getAllUSers() {
 		return userAppRepository.findAll();
 	}
-	
-	
+
 	/**
 	 * GET /users/:id : Show one user by his id
 	 * 
 	 * @param id the id of user to show
-	 * @return 
-	 * @return 
+	 * @return
+	 * @return
 	 */
-	@GetMapping(value="/users/{id}")
-	public ResponseEntity<?> getOneUser(@PathVariable Long id) {
-			UserApp user = userAppRepository.findById(id).get();
-			
-			if (user == null) {
-	            return new ResponseEntity<UserApp>(HttpStatus.NOT_FOUND);
-	        }
-	        return new ResponseEntity<UserApp>(user, HttpStatus.OK);
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+		Optional<UserApp> user = userAppRepository.findById(id);
+		if (!user.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(user);
+
 	}
 
 	/**
@@ -76,7 +74,7 @@ public class UserAppController {
 	 * @param user the user to create
 	 * @return The responseEntity with status 201 with body the new user
 	 */
-	@PostMapping(value = "/users")
+	@PostMapping
 	public ResponseEntity<?> save(@RequestBody UserApp user) {
 		user.setRole(roleAppRepository.findByNameRole("Association"));
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
@@ -91,7 +89,7 @@ public class UserAppController {
 	 * @param user to user to update
 	 * @return
 	 */
-	@PutMapping(value = "/users")
+	@PutMapping
 	public ResponseEntity<?> updateUserApp(@RequestBody UserApp user) {
 		if (user.getId() == null)
 			throw new RuntimeException("Invalid id");
@@ -112,7 +110,7 @@ public class UserAppController {
 	 * @param id the id of user to delete
 	 * @return ResponseEntity with status 200(OK)
 	 */
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUserApp(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
 
