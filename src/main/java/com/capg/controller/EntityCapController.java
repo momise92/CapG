@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.EntityCapRepository;
 import com.capg.entities.EntityCap;
-import com.capg.entities.UserApp;
+
 
 /**
  * @author Moïse Coulanges
