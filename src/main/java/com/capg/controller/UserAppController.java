@@ -51,15 +51,15 @@ public class UserAppController {
 	public List<UserApp> getAllUSers() {
 		return userAppRepository.findAll();
 	}
-	
-	
+
 	/**
 	 * GET /users/:id : Show one user by his id
 	 * 
 	 * @param id the id of user to show
-	 * @return 
-	 * @return 
+	 * @return
+	 * @return
 	 */
+<<<<<<< HEAD
 	
 	
 	@GetMapping(value="/{id}")
@@ -70,6 +70,15 @@ public class UserAppController {
 	        } else {
 	        return new ResponseEntity<>(userAppRepository.findById(id), HttpStatus.OK);
 	        }
+=======
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+		Optional<UserApp> user = userAppRepository.findById(id);
+		if (!user.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(user);
+
+>>>>>>> 84d285ebf38228224094c6e0ba43f7c7cb9a1d14
 	}
 	/**
 	 * Post /users : Create user
@@ -77,7 +86,7 @@ public class UserAppController {
 	 * @param user the user to create
 	 * @return The responseEntity with status 201 with body the new user
 	 */
-	@PostMapping(value = "/users")
+	@PostMapping
 	public ResponseEntity<?> save(@RequestBody UserApp user) {
 		user.setRole(roleAppRepository.findByNameRole("Association"));
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
@@ -92,7 +101,7 @@ public class UserAppController {
 	 * @param user to user to update
 	 * @return
 	 */
-	@PutMapping(value = "/users")
+	@PutMapping
 	public ResponseEntity<?> updateUserApp(@RequestBody UserApp user) {
 		if (user.getId() == null)
 			throw new RuntimeException("Invalid id");
@@ -113,7 +122,7 @@ public class UserAppController {
 	 * @param id the id of user to delete
 	 * @return ResponseEntity with status 200(OK)
 	 */
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUserApp(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
 
