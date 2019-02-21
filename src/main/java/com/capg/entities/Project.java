@@ -22,6 +22,7 @@ public class Project {
 	@Column(name = "project_id")
 	private Long id;
 	
+	@Column(name="project_name", unique=true)
 	private String name;
 	
 	@Column(columnDefinition = "TEXT", length= 255)

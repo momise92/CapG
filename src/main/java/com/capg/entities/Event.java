@@ -33,7 +33,7 @@ public class Event {
 	@Column(name = "event_id")
 	private Long id;
 
-	@Column(name="name")
+	@Column(name="event_name", unique=true)
 	@Size(min=3, max=50)
 	private String name;
 
@@ -78,7 +78,7 @@ public class Event {
 		this.entityCap = entityCap;
 	}
 
-	@Override
+/*	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -90,6 +90,6 @@ public class Event {
 	@Override
 	public int hashCode() {
 		return (int) (31+this.id);
-	}
+	}*/
 
 }
