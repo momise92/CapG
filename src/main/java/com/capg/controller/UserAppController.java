@@ -59,7 +59,7 @@ public class UserAppController {
 	 * @return ResponseEntitu with status 200 (OK) and one user in body
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+	public ResponseEntity<?> getOneUser(@PathVariable Long id) {
 		Optional<UserApp> user = userAppRepository.findById(id);
 		if (!user.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
