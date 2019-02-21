@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.dao.RoleAppRepository;
 import com.capg.entities.RoleApp;
-import com.capg.entities.UserApp;
+
 
 /**
  * @author Moïse Coulanges
