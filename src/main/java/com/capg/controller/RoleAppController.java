@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.RoleAppRepository;
 import com.capg.entities.Project;
 import com.capg.entities.RoleApp;
+import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -27,7 +28,7 @@ import com.capg.entities.RoleApp;
  */
 
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/api/roles")
 public class RoleAppController {
 
 	@Autowired
@@ -41,41 +42,42 @@ public class RoleAppController {
 		return ResponseEntity.ok(role);
 
 	}
-	
+
 	@GetMapping
 	public List<RoleApp> getAllRoleApp() {
 		return roleAppRepository.findAll();
 	}
-	
-	
+
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody RoleApp roleApp) {
 		if (roleAppRepository.findByNameRole(roleApp.getNameRole()) != null) {
-			return new ResponseEntity<String>("Ce nom de role existe déja", HttpStatus.CONFLICT);}
-		return new ResponseEntity<RoleApp>(roleAppRepository.save(roleApp), HttpStatus.CREATED);
-	
-	}
-	
-	
-		
-		@PutMapping
-		public ResponseEntity<?> update(@RequestBody RoleApp role) {
-			if (role.getId() == null) return new ResponseEntity<String>("Role inexistant", HttpStatus.NOT_FOUND);
-			
-				return new ResponseEntity<>(roleAppRepository.save(role), HttpStatus.OK);
-			
+			return new ResponseEntity<String>("Ce nom de role existe déja", HttpStatus.CONFLICT);
 		}
-		
-		@DeleteMapping("/{id}")
-		public ResponseEntity<?> deleteRoleApp(@PathVariable Long id, RoleApp roleApp) {
-			ResponseEntity<?> result = null;
+		return new ResponseEntity<RoleApp>(roleAppRepository.save(roleApp), HttpStatus.CREATED);
 
-			if (roleAppRepository.findById(id) == null) {
-				return new ResponseEntity<String>("Ce role n'existe pas", HttpStatus.NOT_FOUND);}
-			;
-			return new ResponseEntity<RoleApp>((roleApp), HttpStatus.OK);
-			}
+	}
+
+	@PutMapping
+	public ResponseEntity<?> update(@RequestBody RoleApp role) {
+		if (role.getId() == null)
+			return new ResponseEntity<String>("Role inexistant", HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(roleAppRepository.save(role), HttpStatus.OK);
+
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteRoleApp(@PathVariable Long id) {
+		Optional<RoleApp> role = roleAppRepository.findById(id);
+		if (!role.isPresent())
+		{
+			return new ResponseEntity<String>("Ce role n'existe pas", HttpStatus.NOT_FOUND);
+		}else {
+			roleAppRepository.deleteById(id);
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 			
-	
+		
+		
+	}
 }
-
