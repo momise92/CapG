@@ -48,10 +48,6 @@ public class Event {
 
 	@Column(name = "place_number")
 	private int placeNumber;
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy="events")
-	private Set<UserApp> users = new HashSet<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
@@ -65,6 +61,13 @@ public class Event {
 	@ManyToOne
 	@JoinColumn(name = "entity_id", nullable = false)
 	private EntityCap entityCap;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy="eventsSubscribe")
+	private Set<UserApp> usersSubscribe = new HashSet<>();
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private UserApp owner;
 
 	public Event(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate,
 			int placeNumber, City city, EntityCap entityCap) {
