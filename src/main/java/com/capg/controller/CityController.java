@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
-import com.capg.entities.UserApp;
 
 
 /**
@@ -38,7 +37,7 @@ public class CityController {
 	 * @return All cities
 	 */
 	@GetMapping
-	public List<City> getAllCity() {
+	public List<City> getAllCities() {
 		return cityRepository.findAll();
 	}
 	
@@ -50,8 +49,6 @@ public class CityController {
 	 * @return 
 	 * @return 
 	 */
-
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
 		Optional<City> city = cityRepository.findById(id);
@@ -63,6 +60,8 @@ public class CityController {
 	
 	
 	/**
+	 * POST / city/
+	 * 
 	 * @param city to city to create
 	 * @return new city create and response entity with status 201
 	 */
@@ -74,6 +73,12 @@ public class CityController {
 		return new ResponseEntity<City>(cityRepository.save(city), HttpStatus.CREATED);
 	}
 
+	
+	
+	/**
+	 * @param city
+	 * @return
+	 */
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody City city) {
 		if (city.getId() == null) {
@@ -84,6 +89,12 @@ public class CityController {
 
 	}
 
+	
+	
+	/**
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
