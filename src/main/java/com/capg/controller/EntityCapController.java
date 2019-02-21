@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.EntityCapRepository;
 import com.capg.entities.EntityCap;
+import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -29,14 +31,13 @@ public class EntityCapController {
 	@Autowired
 	EntityCapRepository entityCapRepository;
 	
-	@GetMapping(value="/{id}")
+	@GetMapping("/entities/{id}")
 	public ResponseEntity<?> getOneEntityCap(@PathVariable Long id) {
-			
-			if (!entityCapRepository.findById(id).isPresent()) {
-	            return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
-	        } else {
-	        return new ResponseEntity<>(entityCapRepository.findById(id), HttpStatus.OK);
-	        }
+		Optional<EntityCap> entity = entityCapRepository.findById(id);
+		if (!entity.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(entity);
+
 	}
 	/**
 	 * Get : 

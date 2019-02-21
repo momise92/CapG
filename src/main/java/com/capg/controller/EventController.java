@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.EventRepository;
 import com.capg.entities.Event;
 import com.capg.entities.Project;
+import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -29,6 +31,15 @@ public class EventController {
 
 	@Autowired
 	EventRepository eventRepository;
+	
+	@GetMapping("/events/{id}")
+	public ResponseEntity<?> getOneEvent(@PathVariable Long id) {
+		Optional<Event> event = eventRepository.findById(id);
+		if (!event.isPresent())
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(event);
+
+	}
 
 	@GetMapping(value = "/events")
 	public List<Event> getAllEvents() {
