@@ -44,7 +44,7 @@ public class DemoData {
 		RoleApp association = new RoleApp(null, "Association");
 		roleAppRepository.save(association);
 
-		RoleApp personnelManager = new RoleApp(null, "Association");
+		RoleApp personnelManager = new RoleApp(null, "Equipe RH");
 		roleAppRepository.save(personnelManager);
 
 		City sarcelles = new City(null, "Sarcelles");
