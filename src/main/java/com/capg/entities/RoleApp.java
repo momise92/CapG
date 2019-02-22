@@ -20,9 +20,9 @@ public class RoleApp {
 	@Column(name = "role_id")
 	private Long id;
 	
-	@Column(name = "name_role", unique=true)
+	@Column(name = "name_statut", unique=true)
 	@Size(min= 3, max= 50)
-	private String nameRole;
+	private String nameStatus;
 	
 	protected RoleApp () {}
 	
