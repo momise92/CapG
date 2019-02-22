@@ -61,11 +61,11 @@ public class DemoData {
 		entityCapRepository.save(finance);
 
 		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps);
-		user1.setRole(association);
+		user1.setStatus(association);
 		userAppRepository.save(user1);
 
 		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", puteaux, finance);
-		user2.setRole(personnelManager);
+		user2.setStatus(personnelManager);
 		userAppRepository.save(user2);
 
 		Project apiterra = new Project(null, "Apiterra",
