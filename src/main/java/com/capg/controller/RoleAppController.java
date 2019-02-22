@@ -49,7 +49,7 @@ public class RoleAppController {
 
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody RoleApp roleApp) {
-		if (roleAppRepository.findByNameRole(roleApp.getNameRole()) != null) {
+		if (roleAppRepository.findByNameStatus(roleApp.getNameStatus()) != null) {
 			return new ResponseEntity<String>("Ce nom de role existe déja", HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<RoleApp>(roleAppRepository.save(roleApp), HttpStatus.CREATED);
