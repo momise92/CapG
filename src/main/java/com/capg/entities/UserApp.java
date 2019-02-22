@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +48,7 @@ public class UserApp {
 	
 	@JsonIgnore
 	@Size(min=8, max=30)
+	@NotEmpty
 	private String password;
 	
 	//@Pattern(regexp="(^$|[0-9]{10})")
@@ -68,10 +70,13 @@ public class UserApp {
 	@ManyToOne
 	@JoinColumn(name = "entity_id")
 	private EntityCap entityCap;
+
+	@Column(nullable=true)
+	private String role;
 	
 	@ManyToOne
-	@JoinColumn(name = "role_id", nullable = false)
-	private RoleApp role;
+	@JoinColumn(name = "status_id", nullable = false)
+	private RoleApp Status;
 	
 	@ManyToMany
 	@JoinTable(name = "users_subscribe_events", joinColumns = @JoinColumn(name = "user_id"),
