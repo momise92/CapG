@@ -1,10 +1,7 @@
 package com.capg.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,10 +32,10 @@ public class City {
 	@OneToMany(mappedBy="city")
 	private Set<UserApp> listUsers = new HashSet<>();
 	
-	@OneToMany(mappedBy = "city")
+/*	@OneToMany(mappedBy = "city")
 	@JsonIgnore
 	@Column(name = "list_events")
-	private List<Event> listEvents = new ArrayList<>();
+	private List<Event> listEvents = new ArrayList<>();*/
 	
 	public City() {}
 
