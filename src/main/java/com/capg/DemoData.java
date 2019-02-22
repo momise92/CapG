@@ -1,5 +1,6 @@
 package com.capg;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,14 @@ public class DemoData {
 		RoleApp association = new RoleApp(null, "Association");
 		roleAppRepository.save(association);
 
-		RoleApp personnelManager = new RoleApp(null, "Equipe RH");
+		RoleApp personnelManager = new RoleApp(null, "salarie");
 		roleAppRepository.save(personnelManager);
 
 		City sarcelles = new City(null, "Sarcelles");
 		cityRepository.save(sarcelles);
 
-		City dakar = new City(null, "Dakar");
-		cityRepository.save(dakar);
+		City puteaux = new City(null, "Puteaux");
+		cityRepository.save(puteaux);
 
 		EntityCap apps = new EntityCap(null, "Apps");
 		entityCapRepository.save(apps);
@@ -63,7 +64,7 @@ public class DemoData {
 		user1.setRole(association);
 		userAppRepository.save(user1);
 
-		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", dakar, finance);
+		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", puteaux, finance);
 		user2.setRole(personnelManager);
 		userAppRepository.save(user2);
 
@@ -73,12 +74,12 @@ public class DemoData {
 		projectRepository.save(apiterra);
 		
 		Event championsLeague = new Event(null, "Champions League", "Le match de l'année venez nombreux",
-				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
+				new Date(2019, 10, 10), null, 0, puteaux, apps);
 		championsLeague.setProject(apiterra);
 		eventRepository.save(championsLeague);
 		
 		Event ffa = new Event(null, "Championnat de France", "Le championnat de l'année venez nombreux",
-				LocalDateTime.now(), LocalDateTime.of(2019, 04, 19, 9, 15), 100, dakar, apps);
+			new java.util.Date(), null, 0, puteaux, apps);
 		eventRepository.save(ffa);
 		
 	Project capSurLeCode = new Project(null, "Cap sur le Code",
