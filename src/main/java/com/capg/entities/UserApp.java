@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,7 +49,7 @@ public class UserApp {
 	@Size(min=8, max=30)
 	private String password;
 	
-	@Pattern(regexp="(^$|[0-9]{10})")
+	//@Pattern(regexp="(^$|[0-9]{10})")
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
@@ -64,15 +61,15 @@ public class UserApp {
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "city_id", nullable=false)
 	private City city;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "entity_id")
 	private EntityCap entityCap;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
 	private RoleApp role;
 	
@@ -81,7 +78,7 @@ public class UserApp {
 	inverseJoinColumns = @JoinColumn(name = "event_id"))
 	private Set<Event> eventsSubscribe = new HashSet<>();
 	
-	@OneToMany
+	@OneToMany(mappedBy="owner")
 	private Set<Event> createdEvents = new HashSet<>();
 	
 	protected UserApp() {}
