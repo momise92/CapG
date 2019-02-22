@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.capg.dao.CityRepository;
+import com.capg.dao.EntityCapRepository;
 import com.capg.dao.EventRepository;
 import com.capg.entities.Event;
 
@@ -23,12 +27,17 @@ import com.capg.entities.Event;
  * 
  *         Rest Controller for managing Events
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class EventController {
 
 	@Autowired
 	EventRepository eventRepository;
+	@Autowired
+	CityRepository cityRepository;
+	@Autowired
+	EntityCapRepository entityCapRepository;
 	
 	@GetMapping("/events/{id}")
 	public ResponseEntity<?> getOneEvent(@PathVariable Long id) {
@@ -49,7 +58,8 @@ public class EventController {
 		if (eventRepository.findByName(event.getName()) != null) {
 			return new ResponseEntity<String>("Ce nom d'événement existe déja", HttpStatus.CONFLICT);
 		}
-
+		event.setCity(cityRepository.findByName(event.getCity().getName()));
+		event.setEntityCap(entityCapRepository.findByName(event.getEntityCap().getName()));
 		return new ResponseEntity<Event>(eventRepository.save(event), HttpStatus.CREATED);
 	}
 	
