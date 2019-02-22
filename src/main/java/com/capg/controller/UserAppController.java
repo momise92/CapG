@@ -75,7 +75,7 @@ public class UserAppController {
 	 */
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody UserApp user) {
-		user.setRole(roleAppRepository.findByNameRole("Association"));
+		user.setStatus(roleAppRepository.findByNameStatus("Association"));
 		user.setCity(cityRepository.findByName(user.getCity().getName()));
 		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
 		user.setCreatedDate(LocalDateTime.now());
@@ -99,7 +99,7 @@ public class UserAppController {
 		user.setLastUpdate(LocalDateTime.now());
 		Optional<UserApp> userCreateDate = userAppRepository.findById(user.getId());
 		user.setCreatedDate(userCreateDate.get().getCreatedDate());
-		user.setRole(roleAppRepository.findByNameRole(user.getRole().getNameRole()));
+		user.setStatus(roleAppRepository.findByNameStatus(user.getStatus().getNameStatus()));
 		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.OK);
 
 	}
