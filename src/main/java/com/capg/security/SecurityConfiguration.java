@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Bean
@@ -30,13 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-		.csrf().and()
+		.csrf().disable()
 		.cors().and()
-		.httpBasic().and()
+		.httpBasic().disable()
 		.formLogin().disable()
 		.authorizeRequests()
 		.antMatchers("/", "/csrf").permitAll()
-		.antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+		.antMatchers("/api/account/login/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/api/city/**","/api/entities/**",
 				"/api/roles/**","/api/projects/**").permitAll()
 		.anyRequest().authenticated().and()
