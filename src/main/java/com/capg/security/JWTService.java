@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.capg.entities.RoleApp;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,21 +31,20 @@ public class JWTService {
 		return claims.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	public UsernamePasswordAuthenticationToken getAuthenticationFromJWT(String jwt) throws Exception {
 		UsernamePasswordAuthenticationToken result = null;
 
 		try {
 			Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwt).getBody();
 
-			if (blacklist.userInList(claims.getSubject()))
+			/*if (blacklist.userInList(claims.getSubject()))
 				throw new Exception("Blacklisted User");
-
+*/
 			List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-			for (String role : (List<String>) claims.get("authorities")) {
+			String role = (String) claims.get("authorities"); 
 				SimpleGrantedAuthority sga = new SimpleGrantedAuthority("ROLE_" + role);
 				roles.add(sga);
-			}
+			
 
 			result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, roles);
 
@@ -53,15 +54,12 @@ public class JWTService {
 		return result;
 	}
 
-	public String createJWT(String user, List<String> roles) {
+	public String createJWT(String user, RoleApp roles) {
 		Long now = System.currentTimeMillis();
-		String jwt = Jwts.builder().setSubject(user).claim("authorities", roles.toArray(new String[0]))
-				.setIssuedAt(new Date(now)).setExpiration(new Date(now + expiration * 1000)) // ex une journée (86400
-																								// secondes)
-				// = (heures, minutes, secondes)
-				// 24*60*60 *1000 (car l
-				// expiration est en
-				// millisecondes)
+		String jwt = Jwts.builder().setSubject(user).claim("authorities", roles.getNameStatus())
+				.setIssuedAt(new Date(now)).setExpiration(new Date(now + expiration * 1000)) 
+				// ex une journée (86400 secondes )= (heures, minutes, secondes)
+				// 24*60*60 *1000 (car lexpiration est en millisecondes)
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 
 		return jwt;
