@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,9 @@ public class UserAppController {
 	CityRepository cityRepository;
 	@Autowired
 	EntityCapRepository entityCapRepository;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 
 	/**
 	 * GET /users : All Users
@@ -81,6 +85,13 @@ public class UserAppController {
 		user.setCreatedDate(LocalDateTime.now());
 		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/register")
+    public void register(@RequestBody UserApp user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userAppRepository.save(user);
+    }
+	
 
 	/**
 	 * PUT /users : Update an existing user
