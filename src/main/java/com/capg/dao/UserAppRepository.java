@@ -13,6 +13,7 @@ public interface UserAppRepository extends JpaRepository<UserApp, Long>{
 	UserApp findByEmail(String email);
 	UserApp findByCity(String city);
 	UserApp findByEntityCap(String entity);
+	Boolean existsByEmail(String email);
 	List<UserApp> findByIsActiveFalseOrderByNameAsc();
 
 }
