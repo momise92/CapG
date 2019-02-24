@@ -1,9 +1,9 @@
 package com.capg;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.capg.dao.CityRepository;
@@ -39,10 +39,13 @@ public class DemoData {
 
 	@Autowired
 	EventRepository eventRepository;
+	
+	@Autowired
+	PasswordEncoder encoder;
 
 	public void data() {
 
-		RoleApp association = new RoleApp(null, "Association");
+		RoleApp association = new RoleApp(null, "association");
 		roleAppRepository.save(association);
 
 		RoleApp personnelManager = new RoleApp(null, "salarie");
@@ -60,11 +63,11 @@ public class DemoData {
 		EntityCap finance = new EntityCap(null, "finance");
 		entityCapRepository.save(finance);
 
-		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", "password", sarcelles, apps);
+		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", encoder.encode("password"), sarcelles, apps);
 		user1.setStatus(association);
 		userAppRepository.save(user1);
 
-		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", "password", puteaux, finance);
+		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", encoder.encode("password"), puteaux, finance);
 		user2.setStatus(personnelManager);
 		userAppRepository.save(user2);
 
@@ -74,7 +77,7 @@ public class DemoData {
 		projectRepository.save(apiterra);
 		
 		Event championsLeague = new Event(null, "Champions League", "Le match de l'année venez nombreux",
-				new Date(2019, 10, 10), null, 0, puteaux, apps);
+				new java.util.Date(), null, 0, puteaux, apps);
 		championsLeague.setProject(apiterra);
 		eventRepository.save(championsLeague);
 		
