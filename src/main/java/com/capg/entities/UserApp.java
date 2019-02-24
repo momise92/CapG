@@ -18,8 +18,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -46,8 +46,7 @@ public class UserApp {
 	@Column(nullable=false, unique=true)
 	private String email;
 	
-	@JsonIgnore
-	@Size(min=8, max=30)
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@NotEmpty
 	private String password;
 	
