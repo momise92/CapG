@@ -28,10 +28,10 @@ import com.capg.entities.Event;
  * 
  *         Rest Controller for managing Events
  */
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
-@Secured({"ROLE_association"})
+//@Secured({"ROLE_association"})
 public class EventController {
 
 	@Autowired
