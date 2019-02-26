@@ -41,11 +41,10 @@ public class EntityCap {
 	private List<Event> listEvents = new ArrayList<>();
 			
 	
-	protected EntityCap () {}
+	public EntityCap () {}
 
 
-	public EntityCap(Long id, String name) {
-		this.id = id;
+	public EntityCap(String name) {
 		this.name = name;
 	}
 	
