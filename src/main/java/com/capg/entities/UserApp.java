@@ -85,10 +85,9 @@ public class UserApp {
 	@OneToMany(mappedBy="owner")
 	private Set<Event> createdEvents = new HashSet<>();
 	
-	protected UserApp() {}
+	public UserApp() {}
 
-	public UserApp(Long id, String name, String lastName, String email, String password, City city, EntityCap entityCap) {
-		this.id = id;
+	public UserApp(String name, String lastName, String email, String password, City city, EntityCap entityCap) {
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
