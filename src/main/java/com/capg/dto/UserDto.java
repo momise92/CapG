@@ -3,10 +3,8 @@ package com.capg.dto;
 import java.time.LocalDateTime;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import com.capg.entities.City;
-import com.capg.entities.EntityCap;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,9 +28,13 @@ public class UserDto {
 	private String email;
 	
 	@NotBlank
+	@Size(min=8)
 	private String password;
 	
-	//@Pattern(regexp="(^$|[0-9]{10})")
+	@Size(min=8)
+	private String checkPassword;
+	
+	@Pattern(regexp="(^$|[0-9]{10})")
 	private String phoneNumber;
 	
 	private boolean isActive = true;
@@ -41,9 +43,9 @@ public class UserDto {
 	
 	private LocalDateTime lastUpdate;
 	
-	private City city;
+	private String city;
 	
-	private EntityCap entityCap;
+	private String entityCap;
 
 	private String role;
 }
