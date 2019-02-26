@@ -40,8 +40,7 @@ public class Project {
 
 	public Project () {}
 	
-	public Project(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate) {
-		this.id = id;
+	public Project(String name, String description, LocalDateTime beginningDate, LocalDateTime endDate) {
 		this.name = name;
 		this.description = description;
 		this.beginningDate = beginningDate;
