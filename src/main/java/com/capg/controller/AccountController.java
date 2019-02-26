@@ -21,6 +21,7 @@ import com.capg.dao.EntityCapRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
 import com.capg.dto.JsonCredential;
+import com.capg.dto.PasswordChangeDto;
 import com.capg.dto.UserDto;
 import com.capg.entities.RoleApp;
 import com.capg.entities.UserApp;
@@ -57,7 +58,7 @@ public class AccountController {
 		UserApp user = userAppRepository.findByEmail(cred.getEmail());
 
 		if (!user.isActive()) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Disabled");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You account is disabled");
 		}
 
 		if (!passwordEncoder.matches(cred.getPassword(), user.getPassword())) {
@@ -97,8 +98,8 @@ public class AccountController {
 
 	@GetMapping("/me")
 	public ResponseEntity<UserApp> me() {
-		/*SecurityContextHolder.getContext().getAuthentication().getName();*/
-		
+		/* SecurityContextHolder.getContext().getAuthentication().getName(); */
+
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		UserApp user = userAppRepository.findByEmail(name);
@@ -106,7 +107,19 @@ public class AccountController {
 		return ResponseEntity.ok(user);
 
 	}
+
+	@PostMapping(value = "/change-password")
+	public ResponseEntity<?> register(@Valid @RequestBody PasswordChangeDto password) {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserApp user = userAppRepository.findByEmail(name);
+
+		if (!passwordEncoder.matches(password.getCurrentPassword(), user.getPassword())) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Your current password is incorrect");
+		}
+		String encryptedPassword = passwordEncoder.encode(password.getNewPassword());
+		user.setPassword(encryptedPassword);
 		
-		
+		return ResponseEntity.ok(userAppRepository.save(user));
+	}
 
 }
