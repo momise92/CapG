@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CityRepository;
 import com.capg.dao.EntityCapRepository;
 import com.capg.dao.EventRepository;
+import com.capg.dao.UserAppRepository;
 import com.capg.entities.Event;
+import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -30,7 +33,7 @@ import com.capg.entities.Event;
  */
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/events")
 //@Secured({"ROLE_association"})
 public class EventController {
 
@@ -40,8 +43,10 @@ public class EventController {
 	CityRepository cityRepository;
 	@Autowired
 	EntityCapRepository entityCapRepository;
+	@Autowired
+	UserAppRepository userAppRepository;
 	
-	@GetMapping("/events/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getOneEvent(@PathVariable Long id) {
 		Optional<Event> event = eventRepository.findById(id);
 		if (!event.isPresent())
@@ -50,22 +55,26 @@ public class EventController {
 
 	}
 
-	@GetMapping(value = "/events")
+	@GetMapping
 	public List<Event> getAllEvents() {
 		return eventRepository.findAll();
 	}
 
-	@PostMapping(value = "/events")
+	@PostMapping
 	public ResponseEntity<?> save(@RequestBody Event event) {
 		if (eventRepository.findByName(event.getName()) != null) {
 			return new ResponseEntity<String>("Ce nom d'événement existe déja", HttpStatus.CONFLICT);
 		}
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserApp user = userAppRepository.findByEmail(name);
+		
 		event.setCity(cityRepository.findByName(event.getCity().getName()));
 		event.setEntityCap(entityCapRepository.findByName(event.getEntityCap().getName()));
+		event.setOwner(user);
 		return new ResponseEntity<Event>(eventRepository.save(event), HttpStatus.CREATED);
 	}
 	
-	@PutMapping(value = "/events")
+	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Event event) {
 		if (event.getId() == null) return new ResponseEntity<String>("Evenement inexistant", HttpStatus.NOT_FOUND);
 		
@@ -73,7 +82,7 @@ public class EventController {
 		
 	}
 	
-	@DeleteMapping("/events/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteEvents(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
 

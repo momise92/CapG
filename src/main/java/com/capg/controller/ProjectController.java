@@ -47,6 +47,13 @@ public class ProjectController {
 		return projectRepository.findAll();
 	}
 
+	
+	
+	/**
+	 * GET :/projects:/id
+	 * @param id the id of project
+	 * @return response entity 200 with the projecto on Body
+	 */
 	@GetMapping("/projects/{id}")
 	public ResponseEntity<?> getOneProject(@PathVariable Long id) {
 		Optional<Project> project = projectRepository.findById(id);
@@ -63,7 +70,7 @@ public class ProjectController {
 	 * @return Project created and ResponseEntity with status 201
 	 */
 	@PostMapping(value = "/projects")
-	public ResponseEntity<?> save(@RequestBody Project project) {
+	public ResponseEntity<?> createProject(@RequestBody Project project) {
 		if (projectRepository.findByName(project.getName()) != null) {
 			return new ResponseEntity<String>("Ce nom de projet existe déja", HttpStatus.CONFLICT);
 		}
@@ -105,7 +112,7 @@ public class ProjectController {
 	
 	
 	@PutMapping(value = "/projects")
-	public ResponseEntity<?> update(@RequestBody Project project) {
+	public ResponseEntity<?> updateProject(@RequestBody Project project) {
 		if (project.getId() == null) return new ResponseEntity<String>("Projet inexistant", HttpStatus.NOT_FOUND);
 		
 			return new ResponseEntity<>(projectRepository.save(project), HttpStatus.OK);

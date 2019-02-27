@@ -3,9 +3,13 @@ package com.capg.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +25,8 @@ import com.capg.dao.CityRepository;
 import com.capg.dao.EntityCapRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
+import com.capg.dto.PasswordChangeDto;
+import com.capg.dto.UserDto;
 import com.capg.entities.UserApp;
 
 /**
@@ -52,7 +58,7 @@ public class UserAppController {
 	 * @return the ResponseEntity with status 200 (OK) and the list of user in body
 	 */
 	@GetMapping
-	public List<UserApp> getAllUSers() {
+	public List<UserApp> getAllUsers() {
 		return userAppRepository.findAll();
 	}
 
@@ -63,10 +69,21 @@ public class UserAppController {
 	 * @return ResponseEntitu with status 200 (OK) and one user in body
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getOneUser(@PathVariable Long id) {
+	public ResponseEntity<?> getUser(@PathVariable Long id) {
 		Optional<UserApp> user = userAppRepository.findById(id);
 		if (!user.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		return ResponseEntity.ok(user);
+
+	}
+	
+	@GetMapping("/current")
+	public ResponseEntity<UserApp> getCurrentUser() {
+
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		UserApp user = userAppRepository.findByEmail(name);
+
 		return ResponseEntity.ok(user);
 
 	}
@@ -78,19 +95,42 @@ public class UserAppController {
 	 * @return The responseEntity with status 201 with body the new user
 	 */
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody UserApp user) {
-		user.setStatus(roleAppRepository.findByNameStatus("Association"));
-		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
-		user.setCreatedDate(LocalDateTime.now());
-		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.CREATED);
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserDto user) {
+		if (userAppRepository.existsByEmail(user.getEmail()))
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("user already exist");
+
+		if (!user.getPassword().equals(user.getCheckPassword()))
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Please check your password");
+
+		UserApp newUser = new UserApp();
+		newUser.setName(user.getName());
+		newUser.setLastName(user.getLastName());
+		newUser.setEmail(user.getEmail());
+		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		newUser.setPhoneNumber(user.getPhoneNumber());
+		newUser.setCreatedDate(LocalDateTime.now());
+		newUser.setStatus(roleAppRepository.findByNameStatus(user.getStatus()));
+		newUser.setCity(cityRepository.findByName(user.getCity()));
+		newUser.setEntityCap(entityCapRepository.findByName(user.getEntityCap()));
+
+		return ResponseEntity.ok(userAppRepository.save(newUser));
+
 	}
 	
-	@PostMapping("/register")
-    public void register(@RequestBody UserApp user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userAppRepository.save(user);
-    }
+	@PostMapping(value = "/password")
+	public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordChangeDto password) {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserApp user = userAppRepository.findByEmail(name);
+
+		if (!passwordEncoder.matches(password.getCurrentPassword(), user.getPassword())) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Your current password is incorrect");
+		}
+		String encryptedPassword = passwordEncoder.encode(password.getNewPassword());
+		user.setPassword(encryptedPassword);
+		
+		return ResponseEntity.ok(userAppRepository.save(user));
+	}
+
 	
 
 	/**
@@ -100,7 +140,7 @@ public class UserAppController {
 	 * @return
 	 */
 	@PutMapping
-	public ResponseEntity<?> updateUserApp(@RequestBody UserApp user) {
+	public ResponseEntity<?> updateUser(@RequestBody UserApp user) {
 		Optional<UserApp> userToUpdate = userAppRepository.findById(user.getId());
 		if (user.getId() == null || !userToUpdate.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
@@ -122,7 +162,7 @@ public class UserAppController {
 	 * @return ResponseEntity with status 200(OK)
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUserApp(@PathVariable Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		ResponseEntity<?> result = null;
 
 		if (userAppRepository.findById(id) == null) {

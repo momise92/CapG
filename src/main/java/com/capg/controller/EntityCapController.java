@@ -18,79 +18,83 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.EntityCapRepository;
 import com.capg.entities.EntityCap;
 
-
 /**
  * @author Moïse Coulanges
  * @author Hawa Gaye
  * 
- * Rest Controller for managing User
+ *         Rest Controller for managing User
  */
 @RestController
-@RequestMapping("/api/")
-@Secured({"ROLE_association"})
+@RequestMapping("/api/entities")
+@Secured({ "ROLE_association" })
 public class EntityCapController {
-	
+
 	@Autowired
 	EntityCapRepository entityCapRepository;
-	
-	@GetMapping("/entities/{id}")
-	public ResponseEntity<?> getOneEntityCap(@PathVariable Long id) {
+
+	/**
+	 * GET:/api/entities:/id
+	 * 
+	 * @param id
+	 * @return response entity with status 200 (ok) and entity on body
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getEntityCap(@PathVariable Long id) {
 		Optional<EntityCap> entity = entityCapRepository.findById(id);
 		if (!entity.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		return ResponseEntity.ok(entity);
-
 	}
 	/**
-	 * Get : 
+	 * GET:/api/entities
+	 * 
 	 * @return List all Entities
 	 */
-	@GetMapping(value = "/entities")
+	@GetMapping
 	public List<EntityCap> getAllEntities() {
 		return entityCapRepository.findAll();
 	}
-	
+
 	/**
 	 * Post : Create new Entity
+	 * 
 	 * @param entityCap to entity to create
 	 * @return create entity and responseEntiy with status 201
 	 */
-	@PostMapping(value = "/entities")
-	public ResponseEntity<?> save(@RequestBody EntityCap entityCap) {
+	@PostMapping
+	public ResponseEntity<?> create(@RequestBody EntityCap entityCap) {
 		if (entityCapRepository.findByName(entityCap.getName()) != null) {
 			return new ResponseEntity<String>("Cette entité existe déja", HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<EntityCap>(entityCapRepository.save(entityCap), HttpStatus.CREATED);
 	}
+
+	/**
+	 * PUT: api/entities
+	 * 
+	 * @param entity the entity to update
+	 * @return reponse entity with status 200 and the body
+	 */
+	@PutMapping
+	public ResponseEntity<?> update(@RequestBody EntityCap entity) {
+		if (entity.getId() == null)
+			return new ResponseEntity<String>("Entité inexistante", HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(entityCapRepository.save(entity), HttpStatus.OK);
+
+	}
+
 	
-	//Delete one entityCap
-		@DeleteMapping("/entities/{id}")
-		public ResponseEntity<?> deleteProject(@PathVariable Long id) {
-			ResponseEntity<?> result = null;
-
-			if (entityCapRepository.findById(id) == null) {
-				return new ResponseEntity<String>("Ce projet n'existe passssssss", HttpStatus.NOT_FOUND);}
-
-			try {
-				entityCapRepository.deleteById(id);
-				result = new ResponseEntity<>(true,HttpStatus.OK);
-				}
-
-			catch (Exception ex) {
-
-				result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);}
-
-				return result;
-
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteCity(@PathVariable Long id) {
+		Optional<EntityCap> entity = entityCapRepository.findById(id);
+		if (!entity.isPresent()) {
+			return new ResponseEntity<String>("Cette entité n'existe pas", HttpStatus.NOT_FOUND);
+		} else {
+			entityCapRepository.deleteById(id);
+			return new ResponseEntity<String>(HttpStatus.OK);
 		}
-		
 
-		@PutMapping(value = "/entities")
-		public ResponseEntity<?> update(@RequestBody EntityCap entity) {
-			if (entity.getId() == null) return new ResponseEntity<String>("Entité inexistante", HttpStatus.NOT_FOUND);
-			
-				return new ResponseEntity<>(entityCapRepository.save(entity), HttpStatus.OK);
-			
-		}
+	}
 
 }

@@ -1,4 +1,5 @@
 package com.capg.controller;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ import com.capg.entities.RoleApp;
 import com.capg.entities.UserApp;
 import com.capg.security.JWTService;
 
+/**
+ * @author Moïse Coulanges
+ * @author Hawa Gaye
+ * 
+ *         Rest Controller for managing authentification
+ */
 @RestController
 @RequestMapping("/api/account")
 @CrossOrigin("*")
@@ -28,6 +35,12 @@ public class AuthController {
 	@Autowired
 	JWTService jwtService;
 
+	/**
+	 * @param credential DTO for login
+	 *
+	 * @return response entity with status 200 and Body with Token
+	 * @throws Exception
+	 */
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@Valid @RequestBody JsonCredential cred, HttpServletRequest request)
 			throws Exception {

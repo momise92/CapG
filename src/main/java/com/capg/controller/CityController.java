@@ -17,22 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
 
-
 /**
  * @author Moïse Coulanges
  * @author Hawa Gaye
  * 
- * Rest Controller for managing City
+ *         Rest Controller for managing City
  */
 @RestController
-@RequestMapping("/api/city")
+@RequestMapping("/api/cities")
 public class CityController {
 
 	@Autowired
 	CityRepository cityRepository;
 
 	/**
-	 * Get : get All cities
+	 * Get: api/cities get All cities
 	 * 
 	 * @return All cities
 	 */
@@ -40,47 +39,43 @@ public class CityController {
 	public List<City> getAllCities() {
 		return cityRepository.findAll();
 	}
-	
-	
+
 	/**
-	 * GET /city/:id : Show one city by his id
+	 * GET api/cities/:id : Show one city by his id
 	 * 
 	 * @param id the id of city to show
-	 * @return 
-	 * @return 
+	 * @return
+	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getOneCity(@PathVariable Long id) {
+	public ResponseEntity<?> getCity(@PathVariable Long id) {
 		Optional<City> city = cityRepository.findById(id);
 		if (!city.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		return ResponseEntity.ok(city);
 
 	}
-	
-	
+
 	/**
 	 * POST / city/
 	 * 
 	 * @param city to city to create
 	 * @return new city create and response entity with status 201
 	 */
-	@PostMapping(value = "/city")
-	public ResponseEntity<?> save(@RequestBody City city) {
+	@PostMapping
+	public ResponseEntity<?> saveCity(@RequestBody City city) {
 		if (cityRepository.findByName(city.getName()) != null) {
 			return new ResponseEntity<String>("Cette ville existe déja", HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<City>(cityRepository.save(city), HttpStatus.CREATED);
 	}
 
-	
-	
 	/**
 	 * @param city
 	 * @return
 	 */
 	@PutMapping
-	public ResponseEntity<?> update(@RequestBody City city) {
+	public ResponseEntity<?> updateCity(@RequestBody City city) {
 		if (city.getId() == null) {
 			return new ResponseEntity<String>("Ville inexistante", HttpStatus.NOT_FOUND);
 		} else {
@@ -89,32 +84,19 @@ public class CityController {
 
 	}
 
-	
-	
 	/**
 	 * @param id
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
-		ResponseEntity<?> result = null;
-
-		if (!cityRepository.findById(id).isPresent()) {
+	public ResponseEntity<?> deleteCity(@PathVariable Long id) {
+		Optional<City> city = cityRepository.findById(id);
+		if (!city.isPresent()) {
 			return new ResponseEntity<String>("Cette ville n'existe pas", HttpStatus.NOT_FOUND);
-		}
-
-		try {
+		} else {
 			cityRepository.deleteById(id);
-			result = new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<String>(HttpStatus.OK);
 		}
-
-		catch (Exception ex) {
-
-			result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return result;
 
 	}
-
 }

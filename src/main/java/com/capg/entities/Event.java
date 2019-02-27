@@ -1,5 +1,6 @@
 package com.capg.entities;
 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,9 +46,12 @@ public class Event {
 
 	@Column(name = "place_number")
 	private int placeNumber;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private UserApp owner;
 
 	@ManyToOne
-	/*@JoinColumn(name = "city_id", nullable = false)*/
+	/* @JoinColumn(name = "city_id", nullable = false) */
 	private City city;
 
 	@ManyToOne
@@ -58,8 +62,6 @@ public class Event {
 	@ManyToMany(mappedBy = "eventsSubscribe")
 	private Set<UserApp> usersSubscribe = new HashSet<>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private UserApp owner;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")

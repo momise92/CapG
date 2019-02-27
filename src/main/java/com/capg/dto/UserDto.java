@@ -47,5 +47,5 @@ public class UserDto {
 	
 	private String entityCap;
 
-	private String role;
+	private String status;
 }

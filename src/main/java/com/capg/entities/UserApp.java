@@ -75,7 +75,7 @@ public class UserApp {
 	
 	@ManyToOne
 	@JoinColumn(name = "status_id", nullable = false)
-	private RoleApp Status;
+	private RoleApp status;
 	
 	@ManyToMany
 	@JoinTable(name = "users_subscribe_events", joinColumns = @JoinColumn(name = "user_id"),
@@ -95,14 +95,17 @@ public class UserApp {
 		this.city = city;
 		this.entityCap = entityCap;
 	}
+	
 	public void addEvent(Event event)
 	{
 		eventsSubscribe.add(event);
+		event.getUsersSubscribe().add(this);
 	}
 	
 	public void removeEvent(Event event)
 	{
 		this.eventsSubscribe.remove(event);
+		event.getUsersSubscribe().remove(this);
 	}
 	
 	public List<Event>getEvents(){
