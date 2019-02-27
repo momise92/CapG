@@ -40,14 +40,6 @@ public class Project {
 
 	public Project () {}
 	
-	public Project(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate, LocalDateTime startDate) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-	
 /*	public void addEvent(Event event)
 	{
 		events.add(event);

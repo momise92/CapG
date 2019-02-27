@@ -11,8 +11,6 @@ import com.capg.dao.EventRepository;
 import com.capg.dao.ProjectRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
-import com.capg.entities.City;
-import com.capg.entities.EntityCap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,11 +37,7 @@ public class CapGApplicationTests {
 	@Test
 	public void contextLoads() {
 		
-		City dakar = new City(null, "Dakar");
-		cityRepository.save(dakar);
-
-		EntityCap apps = new EntityCap(null, "Apps");
-		EntityCapRepository.save(apps);
+	
 	}
 	
 

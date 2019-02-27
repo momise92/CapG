@@ -38,8 +38,8 @@ public class JWTService {
 			Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwt).getBody();
 
 			/*if (blacklist.userInList(claims.getSubject()))
-				throw new Exception("Blacklisted User");
-*/
+				throw new Exception("Blacklisted User");*/
+
 			List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
 			String role = (String) claims.get("authorities"); 
 				SimpleGrantedAuthority sga = new SimpleGrantedAuthority("ROLE_" + role);

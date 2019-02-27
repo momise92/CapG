@@ -45,47 +45,47 @@ public class DemoData {
 
 	public void data() {
 
-		RoleApp association = new RoleApp(null, "association");
+		RoleApp association = new RoleApp("association");
 		roleAppRepository.save(association);
 
-		RoleApp personnelManager = new RoleApp(null, "salarie");
+		RoleApp personnelManager = new RoleApp("salarie");
 		roleAppRepository.save(personnelManager);
 
-		City sarcelles = new City(null, "Sarcelles");
+		City sarcelles = new City("Sarcelles");
 		cityRepository.save(sarcelles);
 
-		City puteaux = new City(null, "Puteaux");
+		City puteaux = new City("Puteaux");
 		cityRepository.save(puteaux);
 
-		EntityCap apps = new EntityCap(null, "Apps");
+		EntityCap apps = new EntityCap("Apps");
 		entityCapRepository.save(apps);
 
-		EntityCap finance = new EntityCap(null, "finance");
+		EntityCap finance = new EntityCap("finance");
 		entityCapRepository.save(finance);
 
-		UserApp user1 = new UserApp(null, "Hawa", "Gaye", "Gaye@gmail.com", encoder.encode("password"), sarcelles, apps);
+		UserApp user1 = new UserApp("Hawa", "Gaye", "Gaye@gmail.com", encoder.encode("password"), sarcelles, apps);
 		user1.setStatus(association);
 		userAppRepository.save(user1);
 
-		UserApp user2 = new UserApp(null, "Moise", "Coulanges", "Moise@gmail.com", encoder.encode("password"), puteaux, finance);
+		UserApp user2 = new UserApp("Moise", "Coulanges", "Moise@gmail.com", encoder.encode("password"), puteaux, finance);
 		user2.setStatus(personnelManager);
 		userAppRepository.save(user2);
 
-		Project apiterra = new Project(null, "Apiterra",
+		Project apiterra = new Project("Apiterra",
 				"Apiterra cherche des collaborateurs à Suresnes pour s’impliquer dans le club apicole, une fois par mois",
 				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
 		projectRepository.save(apiterra);
 		
-		Event championsLeague = new Event(null, "Champions League", "Le match de l'année venez nombreux",
+		Event championsLeague = new Event("Champions League", "Le match de l'année venez nombreux",
 				new java.util.Date(), null, 0, puteaux, apps);
 		championsLeague.setProject(apiterra);
 		eventRepository.save(championsLeague);
 		
-		Event ffa = new Event(null, "Championnat de France", "Le championnat de l'année venez nombreux",
+		Event ffa = new Event("Championnat de France", "Le championnat de l'année venez nombreux",
 			new java.util.Date(), null, 0, puteaux, apps);
 		eventRepository.save(ffa);
 		
-	Project capSurLeCode = new Project(null, "Cap sur le Code",
+	Project capSurLeCode = new Project("Cap sur le Code",
 				"l’association Innov’Avenir organise une matinée à Suresnes et à Lille pour initier des enfants de 8 à 14 ans",
 				LocalDateTime.now(), LocalDateTime.of(2019, 03, 19, 9, 15));
 		projectRepository.save(capSurLeCode);

@@ -7,12 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Data
-@AllArgsConstructor
 public class RoleApp {
 	
 	@Id
@@ -24,7 +22,11 @@ public class RoleApp {
 	@Size(min= 3, max= 50)
 	private String nameStatus;
 	
-	protected RoleApp () {}
+	public RoleApp () {}
+
+	public RoleApp(@Size(min = 3, max = 50) String nameStatus) {
+		this.nameStatus = nameStatus;
+	}
 	
 
 }

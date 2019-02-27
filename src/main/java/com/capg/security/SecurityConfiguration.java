@@ -31,14 +31,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable()
-		.cors().and()
+		.cors().disable()
 		.httpBasic().disable()
 		.formLogin().disable()
 		.authorizeRequests()
-		.antMatchers("/", "/csrf").permitAll()
-		.antMatchers("/api/account/login/**").permitAll()
+		.antMatchers("/", "/csrf","/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources",
+				"/swagger-resources/configuration/security", "/swagger-ui.html","/webjars/**").permitAll()
+		.antMatchers(HttpMethod.POST,"/api/account/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/api/city/**","/api/entities/**",
-				"/api/roles/**","/api/projects/**").permitAll()
+				"/api/roles/**","/api/projects/**","/api/events/**","/api/users/**").permitAll()
 		.anyRequest().authenticated().and()
 		.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -66,9 +66,8 @@ public class Event {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "events" })
 	private Project project;
 
-	public Event(Long id, String name, String description, Date startDate, Date endDate, int placeNumber, City city,
+	public Event(String name, String description, Date startDate, Date endDate, int placeNumber, City city,
 			EntityCap entityCap) {
-		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.startDate = startDate;

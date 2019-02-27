@@ -18,7 +18,7 @@ public class Blacklist {
 	@Autowired
 	private UserAppRepository userAppRepository;
 
-	private Set<String> disabled = new HashSet<>();
+	private Set<String> disabled = new HashSet<String>();
 
 	public void loadDisabledFromDB()
 	{
