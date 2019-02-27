@@ -28,8 +28,8 @@ public class Project {
 	@Column(columnDefinition = "TEXT", length= 255)
 	private String description;
 	
-	@Column(name="beginning_date")
-	private LocalDateTime beginningDate;
+	@Column(name="start_date")
+	private LocalDateTime startDate;
 	
 	@Column(name="end_date")
 	private LocalDateTime endDate;
@@ -40,11 +40,11 @@ public class Project {
 
 	public Project () {}
 	
-	public Project(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate) {
+	public Project(Long id, String name, String description, LocalDateTime beginningDate, LocalDateTime endDate, LocalDateTime startDate) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.beginningDate = beginningDate;
+		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 	
