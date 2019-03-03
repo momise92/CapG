@@ -24,7 +24,7 @@ import com.capg.security.JWTService;
  *         Rest Controller for managing authentification
  */
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class AuthController {
 
@@ -52,7 +52,7 @@ public class AuthController {
 		UserApp user = userAppRepository.findByEmail(cred.getEmail());
 
 		if (!user.isActive()) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You account is disabled");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Your account is disabled");
 		}
 
 		if (!passwordEncoder.matches(cred.getPassword(), user.getPassword())) {
