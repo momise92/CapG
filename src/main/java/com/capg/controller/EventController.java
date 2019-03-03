@@ -66,11 +66,10 @@ public class EventController {
 			return new ResponseEntity<String>("Ce nom d'événement existe déja", HttpStatus.CONFLICT);
 		}
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
-		UserApp user = userAppRepository.findByEmail(name);
 		
 		event.setCity(cityRepository.findByName(event.getCity().getName()));
 		event.setEntityCap(entityCapRepository.findByName(event.getEntityCap().getName()));
-		event.setOwner(user);
+		event.setOwner(userAppRepository.findByEmail(name));
 		return new ResponseEntity<Event>(eventRepository.save(event), HttpStatus.CREATED);
 	}
 	

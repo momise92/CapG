@@ -50,7 +50,6 @@ public class UserAppController {
 	EntityCapRepository entityCapRepository;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
 
 	/**
 	 * GET /users : All Users
@@ -76,7 +75,7 @@ public class UserAppController {
 		return ResponseEntity.ok(user);
 
 	}
-	
+
 	@GetMapping("/current")
 	public ResponseEntity<UserApp> getCurrentUser() {
 
@@ -84,7 +83,7 @@ public class UserAppController {
 
 		UserApp user = userAppRepository.findByEmail(name);
 
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok().body(user);
 
 	}
 
@@ -102,13 +101,16 @@ public class UserAppController {
 		if (!user.getPassword().equals(user.getCheckPassword()))
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Please check your password");
 
+		if (user.getCreatedDate() == null)
+			user.setCreatedDate(LocalDateTime.now());
+
 		UserApp newUser = new UserApp();
 		newUser.setName(user.getName());
 		newUser.setLastName(user.getLastName());
 		newUser.setEmail(user.getEmail());
 		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		newUser.setPhoneNumber(user.getPhoneNumber());
-		newUser.setCreatedDate(LocalDateTime.now());
+		newUser.setCreatedDate(user.getCreatedDate());
 		newUser.setStatus(roleAppRepository.findByNameStatus(user.getStatus()));
 		newUser.setCity(cityRepository.findByName(user.getCity()));
 		newUser.setEntityCap(entityCapRepository.findByName(user.getEntityCap()));
@@ -116,7 +118,7 @@ public class UserAppController {
 		return ResponseEntity.ok(userAppRepository.save(newUser));
 
 	}
-	
+
 	@PostMapping(value = "/password")
 	public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordChangeDto password) {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -127,11 +129,9 @@ public class UserAppController {
 		}
 		String encryptedPassword = passwordEncoder.encode(password.getNewPassword());
 		user.setPassword(encryptedPassword);
-		
+
 		return ResponseEntity.ok(userAppRepository.save(user));
 	}
-
-	
 
 	/**
 	 * PUT /users : Update an existing user

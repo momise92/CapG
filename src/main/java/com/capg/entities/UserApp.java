@@ -47,7 +47,6 @@ public class UserApp {
 	private String email;
 	
 	@JsonProperty(access=Access.WRITE_ONLY)
-	@NotEmpty
 	private String password;
 	
 	//@Pattern(regexp="(^$|[0-9]{10})")

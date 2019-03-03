@@ -24,7 +24,7 @@ public class JWTService {
 	@Value("${jwt.expiration}")
 	private Long expiration;
 
-	//private Blacklist blacklist;
+	/*private Blacklist blacklist;*/
 
 	public String getJwtInfo(String jwt) {
 		Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwt).getBody();
@@ -38,7 +38,7 @@ public class JWTService {
 			Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwt).getBody();
 
 			/*if (blacklist.userInList(claims.getSubject()))
-				throw new Exception("Blacklisted User");*/
+				throw new RuntimeException("Blacklisted User");*/
 
 			List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
 			String role = (String) claims.get("authorities"); 
