@@ -20,3 +20,8 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 mvn spring-boot:run
 ```
 
+## Documentation API
+
+you can show the documentation generate by Swagger
+http://localhost:{port}/swagger-ui.html
+
