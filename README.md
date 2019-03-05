@@ -5,14 +5,14 @@ You need to create the file Application.properties on the path : src/main/resour
 
 `The file must contain :`
 
-spring.jpa.hibernate.ddl-auto=create
-spring.datasource.url=jdbc:mysql://localhost:8889/NameDatabase
-spring.datasource.username=
-spring.datasource.password=
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-jwt.secret=SecretCapegemini
-jwt.expiration=604800
-server.port=8181
+>spring.jpa.hibernate.ddl-auto=create  
+>spring.datasource.url=jdbc:mysql://localhost:8889/NameDatabase  
+>spring.datasource.username=  
+>spring.datasource.password=  
+>spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect    
+>jwt.secret=SecretCapegemini    
+>jwt.expiration=604800   
+>server.port=8181   
  
 # Cap-Engagement
 
