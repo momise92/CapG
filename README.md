@@ -10,8 +10,8 @@ You need to create the file Application.properties on the path : src/main/resour
 >spring.datasource.username=  
 >spring.datasource.password=  
 >spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect    
->jwt.secret=SecretCapegemini    
->jwt.expiration=604800   
+>jwt.secret=SecretCode    
+>jwt.expiration=604800 #milliseconds  
 >server.port=8181   
  
 # Cap-Engagement
