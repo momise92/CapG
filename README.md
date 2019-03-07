@@ -1,7 +1,16 @@
-# CapG
-Platform pour une mise en relation entre associations et salariés.
+# Cap-Engagement
+Platform Capgemini for collaborator and association who can post events !
+The front-end it's developpe with Vuejs.    
+You can see it on Herebos's repository : [Front-end](https://github.com/Herebos/capgFront).  
+I deploy the platform on the cloud Pivotal : [Capengagment](https://capg.cfapps.io/)
 
-You need to create the file Application.properties on the path : src/main/resources.
+----------------------
+
+## Requirements
+
+# CapG  
+
+You need to create the file Application.properties on the path : src/main/resources.  
 
 `The file must contain :`
 
@@ -13,10 +22,6 @@ You need to create the file Application.properties on the path : src/main/resour
 >jwt.secret=SecretCode    
 >jwt.expiration=604800 #milliseconds  
 >server.port=8181   
- 
-# Cap-Engagement
-
-## Requirements
 
 For building and running the application you need:
 
