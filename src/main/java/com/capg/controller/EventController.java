@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,6 @@ import com.capg.dao.EntityCapRepository;
 import com.capg.dao.EventRepository;
 import com.capg.dao.UserAppRepository;
 import com.capg.entities.Event;
-import com.capg.entities.UserApp;
 
 /**
  * @author Moïse Coulanges
@@ -65,11 +63,11 @@ public class EventController {
 		if (eventRepository.findByName(event.getName()) != null) {
 			return new ResponseEntity<String>("Ce nom d'événement existe déja", HttpStatus.CONFLICT);
 		}
-		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		//String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		event.setCity(cityRepository.findByName(event.getCity().getName()));
 		event.setEntityCap(entityCapRepository.findByName(event.getEntityCap().getName()));
-		event.setOwner(userAppRepository.findByEmail(name));
+		//event.setOwner(userAppRepository.findByEmail(name));
 		return new ResponseEntity<Event>(eventRepository.save(event), HttpStatus.CREATED);
 	}
 	

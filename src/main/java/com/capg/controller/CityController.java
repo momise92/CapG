@@ -6,14 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.capg.dao.CityRepository;
 import com.capg.entities.City;
 
@@ -25,6 +18,7 @@ import com.capg.entities.City;
  */
 @RestController
 @RequestMapping("/api/cities")
+@CrossOrigin("*")
 public class CityController {
 
 	@Autowired
@@ -92,7 +86,7 @@ public class CityController {
 	public ResponseEntity<?> deleteCity(@PathVariable Long id) {
 		Optional<City> city = cityRepository.findById(id);
 		if (!city.isPresent()) {
-			return new ResponseEntity<String>("Cette ville n'existe pas", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Cette ville n'existe pas", HttpStatus.NOT_FOUND);
 		} else {
 			cityRepository.deleteById(id);
 			return new ResponseEntity<String>(HttpStatus.OK);

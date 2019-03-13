@@ -26,7 +26,6 @@ import com.capg.entities.EntityCap;
  */
 @RestController
 @RequestMapping("/api/entities")
-@Secured({ "ROLE_association" })
 public class EntityCapController {
 
 	@Autowired
@@ -84,12 +83,12 @@ public class EntityCapController {
 
 	}
 
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCity(@PathVariable Long id) {
 		Optional<EntityCap> entity = entityCapRepository.findById(id);
 		if (!entity.isPresent()) {
-			return new ResponseEntity<String>("Cette entité n'existe pas", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Cette entité n'existe pas", HttpStatus.NOT_FOUND);
 		} else {
 			entityCapRepository.deleteById(id);
 			return new ResponseEntity<String>(HttpStatus.OK);

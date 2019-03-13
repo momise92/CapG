@@ -27,13 +27,6 @@ public class UserDto {
 	@Email
 	private String email;
 	
-	@NotBlank
-	@Size(min=8)
-	private String password;
-	
-	@Size(min=8)
-	private String checkPassword;
-	
 	@Pattern(regexp="(^$|[0-9]{10})")
 	private String phoneNumber;
 	

@@ -19,7 +19,7 @@ public class RoleApp {
 	private Long id;
 	
 	@Column(name = "name_statut", unique=true)
-	@Size(min= 3, max= 50)
+	@Size(min= 2, max= 50)
 	private String nameStatus;
 	
 	public RoleApp () {}

@@ -16,8 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -81,6 +82,7 @@ public class UserApp {
 	inverseJoinColumns = @JoinColumn(name = "event_id"))
 	private Set<Event> eventsSubscribe = new HashSet<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="owner")
 	private Set<Event> createdEvents = new HashSet<>();
 	

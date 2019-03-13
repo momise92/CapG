@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.capg.dto.UpdateUser;
+import com.capg.dto.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,6 @@ import com.capg.dao.EntityCapRepository;
 import com.capg.dao.RoleAppRepository;
 import com.capg.dao.UserAppRepository;
 import com.capg.dto.PasswordChangeDto;
-import com.capg.dto.UserDto;
 import com.capg.entities.UserApp;
 
 /**
@@ -94,7 +95,7 @@ public class UserAppController {
 	 * @return The responseEntity with status 201 with body the new user
 	 */
 	@PostMapping
-	public ResponseEntity<?> createUser(@Valid @RequestBody UserDto user) {
+	public ResponseEntity<?> createUser(@RequestBody UserVM user) {
 		if (userAppRepository.existsByEmail(user.getEmail()))
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("user already exist");
 
@@ -137,21 +138,22 @@ public class UserAppController {
 	 * PUT /users : Update an existing user
 	 * 
 	 * @param user to user to update
-	 * @return
+	 * @return response entity ok
 	 */
 	@PutMapping
-	public ResponseEntity<?> updateUser(@RequestBody UserApp user) {
+	public ResponseEntity<?> updateUser(@RequestBody UpdateUser user) {
 		Optional<UserApp> userToUpdate = userAppRepository.findById(user.getId());
 		if (user.getId() == null || !userToUpdate.isPresent())
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 
-		user.setCity(cityRepository.findByName(user.getCity().getName()));
-		user.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
-		user.setLastUpdate(LocalDateTime.now());
-		Optional<UserApp> userCreateDate = userAppRepository.findById(user.getId());
-		user.setCreatedDate(userCreateDate.get().getCreatedDate());
-		user.setStatus(roleAppRepository.findByNameStatus(user.getStatus().getNameStatus()));
-		return new ResponseEntity<UserApp>(userAppRepository.save(user), HttpStatus.OK);
+		UserApp updateUser = new UserApp();
+
+		updateUser.setCity(cityRepository.findByName(user.getCity().getName()));
+		updateUser.setEntityCap(entityCapRepository.findByName(user.getEntityCap().getName()));
+		updateUser.setLastUpdate(LocalDateTime.now());
+		updateUser.setCreatedDate(userToUpdate.get().getCreatedDate());
+		updateUser.setStatus(roleAppRepository.findByNameStatus(user.getStatus().getNameStatus()));
+		return new ResponseEntity<>(userAppRepository.save(updateUser), HttpStatus.OK);
 
 	}
 
@@ -163,23 +165,13 @@ public class UserAppController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-		ResponseEntity<?> result = null;
-
-		if (userAppRepository.findById(id) == null) {
-			return new ResponseEntity<String>("Ce user n'existe pas", HttpStatus.NOT_FOUND);
+		Optional<UserApp> user = userAppRepository.findById(id);
+		if (!user.isPresent()) {
+			return new ResponseEntity<>("Cette utilisateur n'existe pas", HttpStatus.NOT_FOUND);
+		} else {
+			entityCapRepository.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
-
-		try {
-			userAppRepository.deleteById(id);
-			result = new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		catch (Exception ex) {
-
-			result = new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return result;
 
 	}
 
